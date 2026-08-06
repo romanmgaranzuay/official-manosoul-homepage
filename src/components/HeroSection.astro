@@ -1,0 +1,44 @@
+---
+// src/components/HeroSection.astro
+---
+
+<!-- 
+  h-[100dvh] makes the section take up exactly 100% of the screen height on any device.
+  overflow-hidden ensures no weird horizontal scrolling happens.
+-->
+<section class="relative left-1/2 w-screen -translate-x-1/2 h-[100dvh] flex items-center justify-center overflow-hidden">
+  
+  {/* The Full-Bleed Background Image */}
+  <img 
+    src="public/images/Manosoul Banner 2.png" 
+    alt="Artist Hero" 
+    class="absolute inset-0 w-full h-full object-cover object-top"
+  />
+
+  {/* Gradient Overlays */}
+  <div class="absolute inset-0 bg-[#e2ebd3]/30"></div>
+  <div class="absolute inset-0 bg-gradient-to-t from-[#e2ebd3] via-[#e2ebd3]/55 to-transparent"></div>
+
+  {/* 
+    Hero Content
+    1. Added "group" to this main wrapper. 
+  */}
+  <div class="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-4xl mt-24 group">
+    
+    {/* 
+      2. Replaced hover:text-[#9b1c31] with group-hover:text-[#9b1c31]
+         This makes the text wait for the user to hover over the group (the button area).
+    */}
+    <span class="text-[#2d5f43] group-hover:text-[#9b1c31] font-bold uppercase tracking-[0.3em] text-xs md:text-sm mb-4 transition-colors duration-300">
+      Hold The Roses
+    </span>
+    
+    {/* Call to Action Buttons */}
+    <div class="flex flex-col sm:flex-row gap-4">
+      <a href="#music" class="px-8 py-4 bg-[#1b3a2a] text-[#faf8f5] font-bold uppercase tracking-widest text-sm hover:bg-[#9b1c31] transition-colors duration-300">
+        Listen Now
+      </a>
+    </div>
+
+  </div>
+</section>

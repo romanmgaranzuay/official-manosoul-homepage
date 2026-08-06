@@ -1,0 +1,149 @@
+---
+// src/components/MusicSection.astro
+import music from '../data/music.json';
+
+interface MusicData {
+  id: string;
+  title: string;
+  category: string;
+  coverArt: string;
+  spotifyUrl: string;
+}
+---
+
+<div class="w-full relative">
+  
+  <div class="flex items-end justify-between mb-8">
+    <h2 class="text-[#faf8f5] text-3xl md:text-5xl font-bold tracking-tighter uppercase">Music</h2>
+    <p class="text-[#faf8f5] text-sm tracking-widest uppercase hidden md:block">Listen Now</p>
+  </div>
+
+  <!-- OUTER WRAPPER: Handles the padding and holds the arrows -->
+  <div class="relative w-full carousel-wrapper md:px-14 py-4">
+    
+    <!-- INNER WRAPPER: Strictly cuts off the third card before it hits the padding -->
+    <div class="w-full overflow-hidden">
+      
+      <div id="music-track" class="flex gap-6 cursor-grab active:cursor-grabbing">
+        
+        {(music as MusicData[]).map((track) => (
+          
+          <div class="shrink-0 w-full md:w-[calc(50%-12px)] flex flex-col music-card">
+            
+            {/* IMAGE CONTAINER (No longer clickable) */}
+            <div class="group overflow-hidden bg-[#9b1c31] group-hover:border-[#9b1c31] transition-colors duration-500 relative mb-4">
+              {/* Image shrinks to 96% to reveal the red background behind it */}
+              <img 
+                src={track.coverArt} 
+                alt={`Cover art for ${track.title}`} 
+                class="w-full aspect-square object-cover group-hover:scale-[0.98] transition-transform duration-500 ease-out" 
+              />
+            </div>
+
+            {/* TITLE & LISTEN NOW ROW */}
+            <div class="flex justify-between items-center px-1">
+              <h3 class="text-2xl font-bold text-[#faf8f5] uppercase tracking-tight truncate transition-colors duration-300">
+                {track.title}
+              </h3>
+              
+              <a 
+                href={track.spotifyUrl}
+                target="_blank" 
+                rel="noopener noreferrer"
+                class="text-sm font-bold text-[#faf8f5] hover:text-[#9b1c31] uppercase tracking-widest underline decoration-1 underline-offset-4 transition-colors duration-300 whitespace-nowrap ml-4 cursor-pointer"
+              >
+                Listen Now
+              </a>
+            </div>
+
+          </div>
+        ))}
+        
+      </div>
+    </div>
+
+    <!-- Navigation Arrows -->
+    <button id="prev-music" class="absolute left-2 md:-left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 md:opacity-0 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2">
+      &larr;
+    </button>
+    <button id="next-music" class="absolute right-2 md:-right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 md:opacity-0 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2">
+      &rarr;
+    </button>
+  </div>
+</div>
+
+<style>
+  .carousel-wrapper:hover #prev-music,
+  .carousel-wrapper:hover #next-music {
+    opacity: 1;
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const track = document.getElementById('music-track') as HTMLElement;
+    const nextBtn = document.getElementById('next-music') as HTMLButtonElement;
+    const prevBtn = document.getElementById('prev-music') as HTMLButtonElement;
+    
+    let isAnimating = false;
+
+    const getSlideDistance = () => {
+      const firstCard = track.firstElementChild as HTMLElement;
+      return firstCard.offsetWidth + 24; 
+    };
+
+    const nextSlide = () => {
+      if (isAnimating || !track.firstElementChild) return;
+      isAnimating = true;
+
+      const slideDistance = getSlideDistance();
+
+      track.style.transition = 'transform 500ms ease-in-out';
+      track.style.transform = `translateX(-${slideDistance}px)`;
+
+      setTimeout(() => {
+        track.style.transition = 'none';
+        track.appendChild(track.firstElementChild as HTMLElement);
+        track.style.transform = 'translateX(0)';
+        isAnimating = false;
+      }, 500);
+    };
+
+    const prevSlide = () => {
+      if (isAnimating || !track.lastElementChild) return;
+      isAnimating = true;
+
+      const slideDistance = getSlideDistance();
+
+      track.style.transition = 'none';
+      track.insertBefore(track.lastElementChild as HTMLElement, track.firstElementChild);
+      
+      track.style.transform = `translateX(-${slideDistance}px)`;
+
+      void track.offsetWidth;
+
+      track.style.transition = 'transform 500ms ease-in-out';
+      track.style.transform = 'translateX(0)';
+
+      setTimeout(() => {
+        isAnimating = false;
+      }, 500);
+    };
+
+    if(nextBtn) nextBtn.addEventListener('click', nextSlide);
+    if(prevBtn) prevBtn.addEventListener('click', prevSlide);
+
+    let startX = 0;
+    
+    track.addEventListener('touchstart', (e) => {
+      startX = e.changedTouches[0].screenX;
+    });
+
+    track.addEventListener('touchend', (e) => {
+      let endX = e.changedTouches[0].screenX;
+      if (endX < startX - 50) nextSlide(); 
+      if (endX > startX + 50) prevSlide(); 
+    });
+  });
+</script>

@@ -1,17 +1,49 @@
 ---
-
+// src/pages/index.astro
+import BaseLayout from '../layouts/BaseLayout.astro';
+import HeroSection from '../components/HeroSection.astro';
+import MusicSection from '../components/MusicSection.astro';
+import VideosSection from '../components/VideosSection.astro';
+import StoreSection from '../components/StoreSection.astro';
+import EventsSection from '../components/EventsSection.astro';
+import SubscribeSection from '../components/SubscribeSection.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro Deez Nuts</h1>
-	</body>
-</html>
+<BaseLayout title="Home | Artist Name">
+  
+  <!-- Each section needs an ID that matches the Navbar href -->
+  
+    <section id="home" class="min-h-[80vh]">
+        <HeroSection />
+    </section>
+
+    <!-- FULL BLEED DARK EVERGREEN SECTION -->
+    <section id="store" class="py-24 border-t border-[#e2ebd3] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            <StoreSection />
+        </div>
+    </section>
+
+    <section id="videos" class="py-24 border-t border-[#e2ebd3]">
+        <VideosSection />
+    </section>
+
+    <!-- FULL BLEED DARK EVERGREEN SECTION -->
+    <section id="music" class="py-24 border-t border-[#e2ebd3] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            <MusicSection />
+        </div>
+    </section>
+
+    <section id="events" class="py-24 border-t border-[#e2ebd3]">
+        <EventsSection />
+    </section>
+
+    <!-- FULL BLEED DARK EVERGREEN SECTION -->
+    <section id="subscribe" class="py-24 border-t border-[#e2ebd3] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
+        <div class="max-w-7xl mx-auto px-6 w-full">
+            <SubscribeSection />
+        </div>
+    </section>
+
+</BaseLayout>

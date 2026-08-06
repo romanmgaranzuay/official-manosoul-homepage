@@ -1,0 +1,23 @@
+[
+  {
+    "id": "vid-01",
+    "title": "All I Want (Official Music Video)",
+    "type": "Music Video",
+    "thumbnail": "https://placehold.co/1280x720/18181b/ffffff?text=All+I+Want",
+    "youtubeId": "wOm2yy-Go3Q"
+  },
+  {
+    "id": "vid-02",
+    "title": "Find A Way (Official Visualizer)",
+    "type": "Visualizer",
+    "thumbnail": "https://placehold.co/1280x720/18181b/ffffff?text=Find+A+Way",
+    "youtubeId": "O3TthQpbxWk"
+  },
+  {
+    "id": "vid-03",
+    "title": "Stay (Official Audio)",
+    "type": "Audio",
+    "thumbnail": "https://placehold.co/1280x720/18181b/ffffff?text=Stay",
+    "youtubeId": "ObmC26gzoIs"
+  }
+]

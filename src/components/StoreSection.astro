@@ -1,0 +1,68 @@
+---
+// src/components/StoreSection.astro
+import shopItems from '../data/store.json';
+---
+
+<div class="w-full">
+  
+  <!-- Section Header -->
+  <div class="flex items-end justify-between mb-12">
+    <!-- Added text-[#0f1d15] to ensure the heading uses your darkest evergreen -->
+    <h2 class="text-3xl md:text-5xl font-bold tracking-tighter uppercase text-[#faf8f5]">Shop</h2>
+    <p class="text-[#faf8f5] text-sm tracking-widest uppercase hidden md:block">Official Merchandise</p>
+  </div>
+
+  <!-- CSS Grid for Merch Cards -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    
+    {shopItems.map((item) => (
+      <div class="group flex flex-col">
+        
+        <!-- Image Container -->
+        <div class="relative overflow-hidden bg-[#faf8f5] aspect-square mb-6">
+          <img 
+            src={item.coverImage} 
+            alt={item.title} 
+            class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          />
+          
+          <!-- Tag for item type (e.g., Digital, Apparel) *THIS IS COMMENTED OUT*-->
+        {false && (
+          <div class="absolute top-4 left-4 bg-[#faf8f5]/92 backdrop-blur-sm border border-[#e2ebd3] px-3 py-1">
+            <span class="text-[10px] text-[#2d5f43] font-bold uppercase tracking-widest">{item.type}</span>
+          </div>
+        )}
+        </div> 
+
+        <!-- Product Details -->
+        <div class="flex flex-col flex-grow">
+          <div class="flex justify-between items-start mb-4 gap-4">
+            <h3 class="text-lg font-bold text-[#faf8f5] uppercase tracking-tight leading-tight">{item.title}</h3>
+            <span class="text-lg font-medium text-[#faf8f5]">{item.price}</span>
+          </div>
+          
+          <!-- Conditional Button Logic -->
+          <div class="mt-auto pt-4">
+            {item.inStock ? (
+              <a 
+                href={item.buyUrl} 
+                class="block w-full py-4 text-center bg-[#1b3a2a] text-[#faf8f5] font-bold uppercase tracking-wider text-sm hover:bg-[#9b1c31] transition-colors duration-300 border border-[#1b3a2a] hover:border-[#9b1c31]"
+              >
+                Buy Now
+              </a>
+            ) : (
+              <button 
+                disabled 
+                class="block w-full py-4 text-center bg-[#faf8f5] text-[#2d5f43] font-bold uppercase tracking-wider text-sm cursor-not-allowed border border-[#e2ebd3]"
+              >
+                Coming Soon
+              </button>
+            )}
+          </div>
+          
+        </div>
+      </div>
+    ))}
+
+  </div>
+</div>

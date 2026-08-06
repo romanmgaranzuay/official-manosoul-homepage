@@ -1,0 +1,30 @@
+[
+  {
+    "id": "01",
+    "title": "Midnight Drive",
+    "category": "Latest Single",
+    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Midnight+Drive",
+    "spotifyUrl": "#"
+  },
+  {
+    "id": "02",
+    "title": "Neon Echoes",
+    "category": "EP",
+    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Neon+Echoes",
+    "spotifyUrl": "#"
+  },
+  {
+    "id": "03",
+    "title": "Fading Light",
+    "category": "Single",
+    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Fading+Light",
+    "spotifyUrl": "#"
+  },
+  {
+    "id": "04",
+    "title": "Analog Hearts",
+    "category": "Single",
+    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Analog+Hearts",
+    "spotifyUrl": "#"
+  }
+]

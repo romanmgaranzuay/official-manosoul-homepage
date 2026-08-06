@@ -1,0 +1,185 @@
+---
+// src/components/VideosSection.astro
+import videos from '../data/videos.json';
+
+// 1. Define the interface so TypeScript knows exactly what data is in the JSON
+interface VideoData {
+  id: string;
+  title: string;
+  type: string;
+  thumbnail: string;
+  youtubeId: string;
+}
+---
+
+<div class="w-full">
+  
+  <div class="flex items-end justify-between mb-8">
+    <h2 class="text-3xl md:text-5xl font-bold tracking-tighter uppercase">Visuals</h2>
+    <p class="text-[#2d5f43] text-sm tracking-widest uppercase hidden md:block">Watch & Listen</p>
+  </div>
+
+  <div class="relative w-full max-w-4xl mx-auto overflow-hidden group">
+    
+    <!-- Sliding Track -->
+    <div id="video-track" class="flex cursor-grab active:cursor-grabbing">
+      
+      {(videos as VideoData[]).map((video) => (
+        
+        <div class="w-full shrink-0 flex flex-col">
+          
+          <div class="w-full relative aspect-video overflow-hidden border border-zinc-900" data-youtube-id={video.youtubeId}>
+            
+            <img 
+              src={video.thumbnail} 
+              alt={video.title} 
+              class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+            />
+            
+            <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+              <button class="play-btn pointer-events-auto text-[#faf8f5]/90 hover:text-[#9b1c31] hover:scale-125 transition-all duration-300 drop-shadow-2xl flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-24 h-24 md:w-32 md:h-32">
+                  <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
+                </svg>
+              </button>
+            </div>
+
+          </div>
+
+          <div class="w-full p-6 pt-5">
+            <h3 class="text-[#2d5f43] text-2xl md:text-3xl font-bold text-[#0] uppercase tracking-tight">{video.title}</h3>
+          </div>
+
+        </div>
+      ))}
+    </div>
+
+    <!-- Navigation Arrows (Videos Section) -->
+    <button id="prev-video" class="absolute left-2 md:left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+      &larr;
+    </button>
+    <button id="next-video" class="absolute right-2 md:right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+      &rarr;
+    </button>
+  </div>
+
+</div>
+
+<div id="youtube-modal" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-lg hidden flex-col items-center justify-center p-4 md:p-12 opacity-0 transition-opacity duration-300">
+  
+  <button id="close-modal" class="absolute top-6 right-6 text-white hover:text-[#9b1c31] tracking-widest uppercase text-sm font-bold transition-colors">
+    Close [X]
+  </button>
+  
+  <div class="w-full max-w-6xl aspect-video bg-black overflow-hidden border border-zinc-800 shadow-2xl">
+    <iframe id="youtube-iframe" class="w-full h-full" src="" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const track = document.getElementById('video-track') as HTMLElement;
+    const nextBtn = document.getElementById('next-video') as HTMLButtonElement;
+    const prevBtn = document.getElementById('prev-video') as HTMLButtonElement;
+    const modal = document.getElementById('youtube-modal') as HTMLElement;
+    const iframe = document.getElementById('youtube-iframe') as HTMLIFrameElement; 
+    const closeModalBtn = document.getElementById('close-modal') as HTMLButtonElement;
+
+    // --- INFINITE CIRCULAR QUEUE LOGIC ---
+    let isAnimating = false;
+
+    const nextSlide = () => {
+      if (isAnimating) return; // Prevent spam-clicking
+      isAnimating = true;
+
+      // 1. Turn on the transition and slide left
+      track.style.transition = 'transform 500ms ease-in-out';
+      track.style.transform = 'translateX(-100%)';
+
+      // 2. Wait for the slide to finish
+      setTimeout(() => {
+        // Turn off transition so we can make an invisible swap
+        track.style.transition = 'none';
+        
+        // Take the first video and move it to the very end of the line
+        track.appendChild(track.firstElementChild as HTMLElement);
+        
+        // Instantly snap the track back to 0 (user won't notice because the videos shifted)
+        track.style.transform = 'translateX(0)';
+        isAnimating = false;
+      }, 500);
+    };
+
+    const prevSlide = () => {
+      if (isAnimating) return;
+      isAnimating = true;
+
+      // 1. Instantly move the last video to the front of the line
+      track.style.transition = 'none';
+      track.insertBefore(track.lastElementChild as HTMLElement, track.firstElementChild);
+      
+      // 2. Offset the track to -100% so it looks like nothing changed yet
+      track.style.transform = 'translateX(-100%)';
+
+      // 3. Force the browser to register the new positions (Reflow)
+      void track.offsetWidth;
+
+      // 4. Turn the transition back on and slide to 0
+      track.style.transition = 'transform 500ms ease-in-out';
+      track.style.transform = 'translateX(0)';
+
+      setTimeout(() => {
+        isAnimating = false;
+      }, 500);
+    };
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // --- SWIPE GESTURES ---
+    let startX = 0;
+    
+    track.addEventListener('touchstart', (e) => {
+      startX = e.changedTouches[0].screenX;
+    });
+
+    track.addEventListener('touchend', (e) => {
+      let endX = e.changedTouches[0].screenX;
+      if (endX < startX - 50) nextSlide(); 
+      if (endX > startX + 50) prevSlide(); 
+    });
+
+    // --- MODAL LOGIC ---
+    document.querySelectorAll('.play-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        // Because the nodes are moving, we dynamically find the parent element's ID
+        const slide = btn.closest('[data-youtube-id]');
+        const youtubeId = slide?.getAttribute('data-youtube-id');
+        
+        if (youtubeId) {
+          iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
+          modal.classList.remove('hidden');
+          modal.classList.add('flex');
+          setTimeout(() => modal.classList.remove('opacity-0'), 10); 
+        }
+      });
+    });
+
+    const closeModal = () => {
+      modal.classList.add('opacity-0');
+      setTimeout(() => {
+        modal.classList.add('hidden');
+        modal.classList.remove('flex');
+        iframe.src = ''; 
+      }, 300);
+    };
+
+    closeModalBtn.addEventListener('click', closeModal);
+    
+    modal.addEventListener('click', (e) => {
+      if (e.target === modal) closeModal();
+    });
+  });
+</script>
