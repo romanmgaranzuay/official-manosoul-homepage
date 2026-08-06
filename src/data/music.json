@@ -1,30 +1,44 @@
 [
   {
     "id": "01",
-    "title": "Midnight Drive",
-    "category": "Latest Single",
-    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Midnight+Drive",
+    "title": "Endless",
+    "category": "Single",
+    "coverArt": "src/assets/images/cover_art/singles/Endless Cover Art.png",
     "spotifyUrl": "#"
   },
   {
     "id": "02",
-    "title": "Neon Echoes",
-    "category": "EP",
-    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Neon+Echoes",
+    "title": "Find A Way",
+    "category": "Single",
+    "coverArt": "src/assets/images/cover_art/singles/Find A Way Cover Art.png",
     "spotifyUrl": "#"
   },
   {
     "id": "03",
-    "title": "Fading Light",
+    "title": "All I Want",
     "category": "Single",
-    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Fading+Light",
+    "coverArt": "src/assets/images/cover_art/singles/All I Want Cover Art.png",
     "spotifyUrl": "#"
   },
   {
     "id": "04",
-    "title": "Analog Hearts",
+    "title": "The Take",
     "category": "Single",
-    "coverArt": "https://placehold.co/600x600/18181b/ffffff?text=Analog+Hearts",
+    "coverArt": "src/assets/images/cover_art/singles/The Take Cover Art.png",
+    "spotifyUrl": "#"
+  },
+  {
+    "id": "04",
+    "title": "Deserve You",
+    "category": "Single",
+    "coverArt": "src/assets/images/cover_art/singles/Deserve You Cover Art.png",
+    "spotifyUrl": "#"
+  },
+  {
+    "id": "04",
+    "title": "Stay",
+    "category": "Single",
+    "coverArt": "src/assets/images/cover_art/singles/Stay Cover Art.png",
     "spotifyUrl": "#"
   }
 ]

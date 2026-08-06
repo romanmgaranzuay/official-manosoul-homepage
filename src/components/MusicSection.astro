@@ -1,14 +1,14 @@
 ---
 // src/components/MusicSection.astro
-import music from '../data/music.json';
+import { getCollection, type CollectionEntry } from 'astro:content';
 
-interface MusicData {
-  id: string;
-  title: string;
-  category: string;
-  coverArt: string;
-  spotifyUrl: string;
-}
+// 1. Fetch all music releases
+const unsortedEntries = await getCollection('releases');
+
+// 2. Sort them numerically based on the 'order' field with explicit TypeScript types
+const musicEntries = unsortedEntries.sort(
+  (a: CollectionEntry<'releases'>, b: CollectionEntry<'releases'>) => a.data.order - b.data.order
+);
 ---
 
 <div class="w-full relative">
@@ -26,16 +26,15 @@ interface MusicData {
       
       <div id="music-track" class="flex gap-6 cursor-grab active:cursor-grabbing">
         
-        {(music as MusicData[]).map((track) => (
+        {musicEntries.reverse().map((entry: CollectionEntry<'releases'>) => (
           
           <div class="shrink-0 w-full md:w-[calc(50%-12px)] flex flex-col music-card">
             
-            {/* IMAGE CONTAINER (No longer clickable) */}
+            {/* IMAGE CONTAINER */}
             <div class="group overflow-hidden bg-[#9b1c31] group-hover:border-[#9b1c31] transition-colors duration-500 relative mb-4">
-              {/* Image shrinks to 96% to reveal the red background behind it */}
               <img 
-                src={track.coverArt} 
-                alt={`Cover art for ${track.title}`} 
+                src={entry.data.coverArt} 
+                alt={`Cover art for ${entry.data.title}`} 
                 class="w-full aspect-square object-cover group-hover:scale-[0.98] transition-transform duration-500 ease-out" 
               />
             </div>
@@ -43,16 +42,15 @@ interface MusicData {
             {/* TITLE & LISTEN NOW ROW */}
             <div class="flex justify-between items-center px-1">
               <h3 class="text-2xl font-bold text-[#faf8f5] uppercase tracking-tight truncate transition-colors duration-300">
-                {track.title}
+                {entry.data.title}
               </h3>
               
+              {/* UPDATE: This now routes to your custom smart link page */}
               <a 
-                href={track.spotifyUrl}
-                target="_blank" 
-                rel="noopener noreferrer"
+                href={`/listen/${entry.data.slug || entry.id}`}
                 class="text-sm font-bold text-[#faf8f5] hover:text-[#9b1c31] uppercase tracking-widest underline decoration-1 underline-offset-4 transition-colors duration-300 whitespace-nowrap ml-4 cursor-pointer"
               >
-                Listen Now
+                Get It Now
               </a>
             </div>
 
