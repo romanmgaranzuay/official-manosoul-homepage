@@ -2,10 +2,11 @@
 // src/components/SubscribeSection.astro
 ---
 
-<div class="w-full max-w-4xl mx-auto">
+<!-- NEW: Added id, opacity-0, and translate-y-16 to push it down initially -->
+<div id="subscribe-container" class="w-full max-w-4xl mx-auto opacity-0 translate-y-16 transition-all duration-2000 ease-out">
   <div class="border border-[#e2ebd3] rounded-2xl p-8 md:p-16 flex flex-col items-center text-center">
     
-    <h2 class="text-3xl md:text-5xl font-bold tracking-tighter uppercase mb-4 text-[#faf8f5]">
+    <h2 class="text-3xl md:text-5xl font-bold font-serif tracking-tighter uppercase mb-4 text-[#faf8f5]">
       SUBSCRIBE
     </h2>
     
@@ -22,8 +23,30 @@
     </div>
 
     <p class="text-[#faf8f5] text-xs mt-6 uppercase tracking-widest">
-      No spam. Unsubscribe at any time.
+      No spam. No BS. Just exclusive content and updates. Unsubscribe anytime.
     </p>
 
   </div>
 </div>
+
+<!-- NEW: Scroll Animation Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const subscribeContainer = document.getElementById('subscribe-container');
+    
+    if (subscribeContainer) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Remove the vertical offset (translate-y-16) and invisible classes
+            subscribeContainer.classList.remove('opacity-0', 'translate-y-16');
+            subscribeContainer.classList.add('opacity-100', 'translate-y-0');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      observer.observe(subscribeContainer);
+    }
+  });
+</script>

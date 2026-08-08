@@ -2,7 +2,6 @@
 // src/components/VideosSection.astro
 import videos from '../data/videos.json';
 
-// 1. Define the interface so TypeScript knows exactly what data is in the JSON
 interface VideoData {
   id: string;
   title: string;
@@ -12,16 +11,16 @@ interface VideoData {
 }
 ---
 
-<div class="w-full">
+<!-- NEW: Added id, opacity-0, and -translate-x-16 -->
+<div id="videos-container" class="w-full opacity-0 -translate-x-16 transition-all duration-2000 ease-out">
   
   <div class="flex items-end justify-between mb-8">
-    <h2 class="text-3xl md:text-5xl font-bold tracking-tighter uppercase">Videos</h2>
-    <p class="text-[#2d5f43] text-sm tracking-widest uppercase hidden md:block">Watch & Listen</p>
+    <h2 class="text-3xl md:text-5xl font-bold font-serif tracking-tighter uppercase">Videos</h2>
+    <p class="text-[#2d5f43] text-sm font-serif tracking-widest uppercase hidden md:block">Watch & Listen</p>
   </div>
 
   <div class="relative w-full max-w-4xl mx-auto overflow-hidden group">
     
-    <!-- Sliding Track -->
     <div id="video-track" class="flex cursor-grab active:cursor-grabbing">
       
       {([...videos].reverse() as VideoData[]).map((video) => (
@@ -37,7 +36,7 @@ interface VideoData {
             />
             
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <button class="play-btn pointer-events-auto text-[#faf8f5]/90 hover:text-[#9b1c31] hover:scale-125 transition-all duration-300 drop-shadow-2xl flex items-center justify-center">
+              <button class="play-btn pointer-events-auto text-[#faf8f5]/90 hover:text-[#db1644] hover:scale-125 transition-all duration-300 drop-shadow-2xl flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-24 h-24 md:w-32 md:h-32">
                   <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
                 </svg>
@@ -47,18 +46,17 @@ interface VideoData {
           </div>
 
           <div class="w-full p-6 pt-5">
-            <h3 class="text-[#2d5f43] text-2xl md:text-3xl font-bold text-[#0] uppercase tracking-tight">{video.title}</h3>
+            <h3 class="text-[#2d5f43] text-3xl md:text-4xl font-serif text-[#0] uppercase tracking-tight">{video.title}</h3>
           </div>
 
         </div>
       ))}
     </div>
 
-    <!-- Navigation Arrows (Videos Section) -->
-    <button id="prev-video" class="absolute left-2 md:left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+    <button id="prev-video" class="absolute left-2 md:left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#db1644] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
       &larr;
     </button>
-    <button id="next-video" class="absolute right-2 md:right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+    <button id="next-video" class="absolute right-2 md:right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#db1644] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
       &rarr;
     </button>
   </div>
@@ -80,6 +78,25 @@ interface VideoData {
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     
+    // --- NEW SCROLL ANIMATION LOGIC ---
+    const videosContainer = document.getElementById('videos-container');
+    
+    if (videosContainer) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Remove the offset (-translate-x-16) and invisible classes
+            videosContainer.classList.remove('opacity-0', '-translate-x-16');
+            videosContainer.classList.add('opacity-100', 'translate-x-0');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      observer.observe(videosContainer);
+    }
+    // -----------------------------------
+
     const track = document.getElementById('video-track') as HTMLElement;
     const nextBtn = document.getElementById('next-video') as HTMLButtonElement;
     const prevBtn = document.getElementById('prev-video') as HTMLButtonElement;
@@ -87,26 +104,18 @@ interface VideoData {
     const iframe = document.getElementById('youtube-iframe') as HTMLIFrameElement; 
     const closeModalBtn = document.getElementById('close-modal') as HTMLButtonElement;
 
-    // --- INFINITE CIRCULAR QUEUE LOGIC ---
     let isAnimating = false;
 
     const nextSlide = () => {
-      if (isAnimating) return; // Prevent spam-clicking
+      if (isAnimating) return; 
       isAnimating = true;
 
-      // 1. Turn on the transition and slide left
       track.style.transition = 'transform 500ms ease-in-out';
       track.style.transform = 'translateX(-100%)';
 
-      // 2. Wait for the slide to finish
       setTimeout(() => {
-        // Turn off transition so we can make an invisible swap
         track.style.transition = 'none';
-        
-        // Take the first video and move it to the very end of the line
         track.appendChild(track.firstElementChild as HTMLElement);
-        
-        // Instantly snap the track back to 0 (user won't notice because the videos shifted)
         track.style.transform = 'translateX(0)';
         isAnimating = false;
       }, 500);
@@ -116,17 +125,10 @@ interface VideoData {
       if (isAnimating) return;
       isAnimating = true;
 
-      // 1. Instantly move the last video to the front of the line
       track.style.transition = 'none';
       track.insertBefore(track.lastElementChild as HTMLElement, track.firstElementChild);
-      
-      // 2. Offset the track to -100% so it looks like nothing changed yet
       track.style.transform = 'translateX(-100%)';
-
-      // 3. Force the browser to register the new positions (Reflow)
       void track.offsetWidth;
-
-      // 4. Turn the transition back on and slide to 0
       track.style.transition = 'transform 500ms ease-in-out';
       track.style.transform = 'translateX(0)';
 
@@ -138,7 +140,6 @@ interface VideoData {
     nextBtn.addEventListener('click', nextSlide);
     prevBtn.addEventListener('click', prevSlide);
 
-    // --- SWIPE GESTURES ---
     let startX = 0;
     
     track.addEventListener('touchstart', (e) => {
@@ -151,10 +152,8 @@ interface VideoData {
       if (endX > startX + 50) prevSlide(); 
     });
 
-    // --- MODAL LOGIC ---
     document.querySelectorAll('.play-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
-        // Because the nodes are moving, we dynamically find the parent element's ID
         const slide = btn.closest('[data-youtube-id]');
         const youtubeId = slide?.getAttribute('data-youtube-id');
         

@@ -3,7 +3,7 @@
 import '../styles/global.css'; 
 import Navbar from '../components/Navbar.astro';
 
-const { title = "My Artist Website" } = Astro.props;
+const { title = "My Artist Website", fullWidth = false } = Astro.props;
 ---
 
 <!-- Add scroll-smooth right here -->
@@ -12,6 +12,10 @@ const { title = "My Artist Website" } = Astro.props;
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>{title}</title>
+        <!-- Google Fonts: Cormorant Garamond (serif), Plus Jakarta Sans (sans), Space Grotesk (mono) -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- MailerLite Universal -->
         <script is:inline>
             (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
@@ -38,7 +42,7 @@ const { title = "My Artist Website" } = Astro.props;
             <slot />
         </main>
 
-        <footer class="py-4 border-t bg-[#faf8f5] border-[#e2ebd3] mt-auto text-center text-[#0f1d15] text-xs tracking-widest uppercase">
+        <footer class="py-4 border-t bg-[#faf8f5] border-[#e2ebd3] mt-auto text-center text-[#0f1d15] font-mono text-xs tracking-widest uppercase">
             <p>&copy; {new Date().getFullYear()} Manosoul. All rights reserved.</p>
         </footer>
     </div>

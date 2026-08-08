@@ -50,7 +50,7 @@ const optimizedCover = await getImage({ src: images[coverArt]() });
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Listen to {title}</title>
+    <title>Manosoul - {title}</title>
   </head>
   <body class="relative min-h-screen w-full flex flex-col items-center justify-start p-6 pt-8 md:pt-12 pb-16 font-sans overflow-y-auto">
     
@@ -87,7 +87,7 @@ const optimizedCover = await getImage({ src: images[coverArt]() });
       <div class="w-full flex flex-col gap-4">
   
         {spotifyUrl && (
-          <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/70 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#1DB954] hover:border-[#1DB954]">
+          <a href={spotifyUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#1DB954] hover:border-[#1DB954]">
             <img src={spotifyIcon.src} alt="Spotify" class="w-32 h-12 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
             
             <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
@@ -98,7 +98,7 @@ const optimizedCover = await getImage({ src: images[coverArt]() });
         )}
 
         {appleMusicUrl && (
-          <a href={appleMusicUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/70 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#FA243C] hover:border-[#FA243C]">
+          <a href={appleMusicUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#FA243C] hover:border-[#FA243C]">
             <img src={appleIcon.src} alt="Apple Music" class="w-32 h-8 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
             
             <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
@@ -109,7 +109,7 @@ const optimizedCover = await getImage({ src: images[coverArt]() });
         )}
 
         {youtubeUrl && (
-          <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/70 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#FF0000] hover:border-[#FF0000]">
+          <a href={youtubeUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#FF0000] hover:border-[#FF0000]">
             <img src={youtubeIcon.src} alt="YouTube" class="w-32 h-8 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
             
             <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
@@ -120,7 +120,7 @@ const optimizedCover = await getImage({ src: images[coverArt]() });
         )}
 
         {youtubeMusicUrl && (
-          <a href={youtubeMusicUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/70 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#000000] hover:border-[#000000]">
+          <a href={youtubeMusicUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#000000] hover:border-[#000000]">
             <img src={youtubeMusicIcon.src} alt="YouTube Music" class="w-32 h-11 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
             
             <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
@@ -131,7 +131,7 @@ const optimizedCover = await getImage({ src: images[coverArt]() });
         )}
 
         {amazonMusicUrl && (
-          <a href={amazonMusicUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/70 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#3f1fe7] hover:border-[#3f1fe7]">
+          <a href={amazonMusicUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#3f1fe7] hover:border-[#3f1fe7]">
             <img src={amazonIcon.src} alt="Amazon Music" class="w-33 h-10 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
             
             <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
@@ -153,7 +153,7 @@ const optimizedCover = await getImage({ src: images[coverArt]() });
         )}
 
         {soundcloudUrl && (
-          <a href={soundcloudUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/70 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#FF5500] hover:border-[#FF5500]">
+          <a href={soundcloudUrl} target="_blank" rel="noopener noreferrer" class="relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#FF5500] hover:border-[#FF5500]">
             <img src={soundcloudIcon.src} alt="SoundCloud" class="w-33 h-8 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
             
             <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">

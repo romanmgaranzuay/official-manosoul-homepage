@@ -1,0 +1,12 @@
+{
+  "order": 2,
+  "title": "Find A Way (Official Digital Lossless)",
+  "type": "digital",
+  "price": "$1.00",
+  "priceInCents": 100,
+  "coverImage": "/src/assets/images/cover_art/singles/Find A Way Cover Art.png",
+  "description": "24-bit / 44.1kHz uncompressed master audio file.",
+  "inStock": true,
+  "stripePriceId": "price_1U2G0zFvQSwbDBpls9XQIwfI",
+  "r2ObjectKey": "masters/find-a-way-master.wav"
+}

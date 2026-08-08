@@ -10,5 +10,5 @@ youtubeMusicUrl: "https://music.youtube.com/playlist?list=OLAK5uy_nYy8TdxlBC0nLn
 amazonMusicUrl: "https://music.amazon.com/albums/B0GHZ1NXZC?ref=dm_ff_amazonmusic_3p"
 bandcampUrl: "https://manosoul.bandcamp.com/track/the-take"
 # soundcloudUrl: ""
-# digitalDownloadUrl: "/store/hold-the-rose" # Can link directly to your site's store page!
+# digitalDownloadUrl: "/shop/hold-the-rose" # Can link directly to your site's shop page!
 ---

@@ -1,0 +1,138 @@
+---
+// src/components/StoreSection.astro
+import { getCollection } from 'astro:content';
+
+// Fetch all shop items from Content Collections
+const shopEntries = await getCollection('shop');
+
+// Sort entries by order (or fallback to default order)
+const shopItems = shopEntries
+  .map(entry => entry.data)
+  .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
+---
+
+<!-- Change "store-container" to "shop-container" -->
+<div id="shop-container" class="w-full opacity-0 translate-x-16 transition-all duration-2000 ease-out">
+  
+  <div class="flex items-end justify-between mb-12">
+    <h2 class="text-3xl md:text-5xl font-bold font-serif tracking-tighter uppercase text-[#faf8f5]">Shop</h2>
+    <p class="text-[#faf8f5] text-sm font-serif tracking-widest uppercase hidden md:block">Official Merchandise</p>
+  </div>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+    
+    {[...shopItems].reverse().map((item) => (
+      <div class="group flex flex-col">
+        
+        <div class="relative overflow-hidden bg-[#faf8f5] aspect-square mb-6">
+          <img 
+            src={item.coverImage} 
+            alt={item.title} 
+            class="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          />
+          
+          {/* <div class="absolute top-4 left-4 px-3 py-1">
+            <span class="text-[10px] text-[#faf8f5] font-bold uppercase tracking-widest">{item.type}</span>
+          </div> */}
+        </div>  
+
+        <div class="flex flex-col flex-grow">
+          <div class="flex justify-between items-start mb-4 gap-4">
+            <h3 class="text-lg font-serif text-[#faf8f5] uppercase tracking-tight leading-tight">{item.title}</h3>
+            <span class="text-lg font-mono font-medium text-[#faf8f5]">{item.price}</span>
+          </div>
+          
+          <div class="mt-auto pt-4">
+            {item.inStock ? (
+              <button 
+                class="buy-now-btn block w-full py-4 text-center bg-[#0f1d15] text-[#faf8f5] font-bold uppercase tracking-wider text-sm hover:text-[#faf8f5] hover:bg-[#9b1c31] hover:scale-105 transition-transform transition-colors duration-300 border border-[#faf8f5] hover:border-[#9b1c31]"
+                data-price-id={item.stripePriceId}
+                data-r2-key={item.r2ObjectKey}
+              >
+                Buy Now
+              </button>
+            ) : (
+              <button 
+                disabled 
+                class="block w-full py-4 text-center bg-[#faf8f5] text-[#2d5f43] font-bold uppercase tracking-wider text-sm cursor-not-allowed border border-[#e2ebd3]"
+              >
+                Coming Soon
+              </button>
+            )}
+          </div>
+          
+        </div>
+      </div>
+    ))}
+
+  </div>
+</div>
+
+<!-- NEW: Scroll Animation Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const shopContainer = document.getElementById('shop-container');
+    
+    if (shopContainer) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            // Remove the offset (translate-x-16) and invisible classes
+            shopContainer.classList.remove('opacity-0', 'translate-x-16');
+            shopContainer.classList.add('opacity-100', 'translate-x-0');
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+
+      observer.observe(shopContainer);
+    }
+  });
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const buyButtons = document.querySelectorAll('.buy-now-btn');
+
+    buyButtons.forEach(button => {
+      button.addEventListener('click', async (e) => {
+        const btn = e.currentTarget as HTMLButtonElement;
+        
+        // Prevent double-clicks & update UI
+        const originalText = btn.innerText;
+        btn.disabled = true;
+        btn.innerText = 'REDIRECTING...';
+        btn.classList.add('opacity-75', 'cursor-wait');
+
+        // Extract the exact Stripe ID and Cloudflare path from the button
+        const priceId = btn.getAttribute('data-price-id');
+        const r2ObjectKey = btn.getAttribute('data-r2-key');
+
+        try {
+          // Send request to our Astro API Route
+          const response = await fetch('/api/create-checkout', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ priceId, r2ObjectKey })
+          });
+          
+          const data = await response.json();
+          
+          // Redirect browser to Stripe Checkout
+          if (data.url) {
+            window.location.href = data.url; 
+          } else {
+            throw new Error(data.error || 'Failed to create checkout session');
+          }
+        } catch (error) {
+          console.error("Checkout failed:", error);
+          alert("Something went wrong loading the checkout. Please try again.");
+          
+          btn.disabled = false;
+          btn.innerText = originalText;
+          btn.classList.remove('opacity-75', 'cursor-wait');
+        }
+      });
+    });
+  });
+</script>

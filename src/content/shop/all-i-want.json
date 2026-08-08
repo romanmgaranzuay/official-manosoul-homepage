@@ -1,0 +1,12 @@
+{
+  "order": 3,
+  "title": "All I Want (Official Digital Lossless)",
+  "type": "digital",
+  "price": "$1.00",
+  "priceInCents": 100,
+  "coverImage": "/src/assets/images/cover_art/singles/All I Want Cover Art.png",
+  "description": "24-bit / 44.1kHz uncompressed master audio file.",
+  "inStock": true,
+  "stripePriceId": "price_1U2G3PFvQSwbDBplAbFkql5R",
+  "r2ObjectKey": "masters/all-i-want-master.wav"
+}

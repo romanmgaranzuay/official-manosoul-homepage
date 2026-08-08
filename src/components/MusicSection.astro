@@ -11,11 +11,11 @@ const musicEntries = unsortedEntries.sort(
 );
 ---
 
-<div class="w-full relative">
+<div id="music-container" class="w-full relative opacity-0 translate-x-16 transition-all duration-2000 ease-out">
   
   <div class="flex items-end justify-between mb-8">
-    <h2 class="text-[#faf8f5] text-3xl md:text-5xl font-bold tracking-tighter uppercase">Music</h2>
-    <p class="text-[#faf8f5] text-sm tracking-widest uppercase hidden md:block">Listen Now</p>
+    <h2 class="text-[#faf8f5] text-3xl md:text-5xl font-bold font-serif tracking-tighter uppercase">Music</h2>
+    <p class="text-[#faf8f5] text-sm tracking-widest font-serif uppercase hidden md:block">Listen Now</p>
   </div>
 
   <!-- OUTER WRAPPER: Handles the padding and holds the arrows -->
@@ -41,14 +41,15 @@ const musicEntries = unsortedEntries.sort(
 
             {/* TITLE & LISTEN NOW ROW */}
             <div class="flex justify-between items-center px-1">
-              <h3 class="text-2xl font-bold text-[#faf8f5] uppercase tracking-tight truncate transition-colors duration-300">
+              <h3 class="text-3xl md:text-4xl font-serif text-[#faf8f5] uppercase tracking-tight truncate transition-colors duration-300">
                 {entry.data.title}
               </h3>
               
               {/* UPDATE: This now routes to your custom smart link page */}
               <a 
                 href={`/listen/${entry.data.slug || entry.id}`}
-                class="text-sm font-bold text-[#faf8f5] hover:text-[#9b1c31] uppercase tracking-widest underline decoration-1 underline-offset-4 transition-colors duration-300 whitespace-nowrap ml-4 cursor-pointer"
+                target="_blank" rel="noopener noreferrer"
+                class="text-sm text-[#faf8f5] hover:text-[#db1644] uppercase tracking-widest underline decoration-1 underline-offset-4 transition-colors duration-300 whitespace-nowrap ml-4 cursor-pointer"
               >
                 Get It Now
               </a>
@@ -61,10 +62,10 @@ const musicEntries = unsortedEntries.sort(
     </div>
 
     <!-- Navigation Arrows -->
-    <button id="prev-music" class="absolute left-2 md:-left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 md:opacity-0 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2">
+    <button id="prev-music" class="absolute left-2 md:-left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#db1644] hover:scale-150 transition-all duration-300 text-3xl opacity-100 md:opacity-0 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2">
       &larr;
     </button>
-    <button id="next-music" class="absolute right-2 md:-right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#9b1c31] hover:scale-150 transition-all duration-300 text-3xl opacity-100 md:opacity-0 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2">
+    <button id="next-music" class="absolute right-2 md:-right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#db1644] hover:scale-150 transition-all duration-300 text-3xl opacity-100 md:opacity-0 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2">
       &rarr;
     </button>
   </div>
@@ -75,11 +76,45 @@ const musicEntries = unsortedEntries.sort(
   .carousel-wrapper:hover #next-music {
     opacity: 1;
   }
+
+  /* NEW: Top-to-Bottom Reveal Classes */
+  .reveal-hidden {
+    opacity: 0;
+    clip-path: inset(0 0 100% 0);
+  }
+  
+  .reveal-visible {
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+  }
 </style>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     
+    // --- NEW SCROLL ANIMATION LOGIC ---
+    const musicContainer = document.getElementById('music-container');
+    
+    if (musicContainer) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          // When the section enters the screen
+          if (entry.isIntersecting) {
+            // Remove the offset and invisible classes
+            musicContainer.classList.remove('opacity-0', 'translate-x-16');
+            // Add full opacity and snap to original position (0)
+            musicContainer.classList.add('opacity-100', 'translate-x-0');
+            
+            // Stop observing so it doesn't animate every time you scroll up and down
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 }); // Triggers when 15% of the section is visible
+
+      observer.observe(musicContainer);
+    }
+    // -----------------------------------
+
     const track = document.getElementById('music-track') as HTMLElement;
     const nextBtn = document.getElementById('next-music') as HTMLButtonElement;
     const prevBtn = document.getElementById('prev-music') as HTMLButtonElement;

@@ -10,5 +10,5 @@ youtubeMusicUrl: "https://music.youtube.com/watch?v=wOm2yy-Go3Q"
 amazonMusicUrl: "https://music.amazon.com/tracks/B0G1CX4VH5/?ref=dm_ff_amazonmusic_3p"
 bandcampUrl: "https://manosoul.bandcamp.com/track/all-i-want"
 # soundcloudUrl: ""
-# digitalDownloadUrl: "/store/hold-the-rose" # Can link directly to your site's store page!
+# digitalDownloadUrl: "/shop/hold-the-rose" # Can link directly to your site's shop page!
 ---

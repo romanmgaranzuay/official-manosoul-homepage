@@ -6,7 +6,7 @@
   h-[100dvh] makes the section take up exactly 100% of the screen height on any device.
   overflow-hidden ensures no weird horizontal scrolling happens.
 -->
-<section class="relative left-1/2 w-screen -translate-x-1/2 h-[100dvh] flex items-center justify-center overflow-hidden">
+<section data-hero class="relative left-1/2 w-screen -translate-x-1/2 h-[95dvh] flex items-center justify-center overflow-hidden">
   
   {/* The Full-Bleed Background Image */}
   <img 
@@ -15,30 +15,52 @@
     class="absolute inset-0 w-full h-full object-cover object-top"
   />
 
-  {/* Gradient Overlays */}
+  {/* Gradient Overlays 
   <div class="absolute inset-0 bg-[#e2ebd3]/30"></div>
   <div class="absolute inset-0 bg-gradient-to-t from-[#e2ebd3] via-[#e2ebd3]/55 to-transparent"></div>
+  */}
 
   {/* 
     Hero Content
     1. Added "group" to this main wrapper. 
   */}
-  <div class="relative z-10 flex flex-col items-center text-center px-4 w-full max-w-4xl mt-24 group">
-    
-    {/* 
-      2. Replaced hover:text-[#9b1c31] with group-hover:text-[#9b1c31]
-         This makes the text wait for the user to hover over the group (the button area).
-    */}
-    <span class="text-[#2d5f43] group-hover:text-[#9b1c31] font-bold uppercase tracking-[0.3em] text-xs md:text-sm mb-4 transition-colors duration-300">
-      Hold The Roses
-    </span>
-    
-    {/* Call to Action Buttons */}
-    <div class="flex flex-col sm:flex-row gap-4">
-      <a href="#music" class="px-8 py-4 bg-[#1b3a2a] text-[#faf8f5] font-bold uppercase tracking-widest text-sm hover:bg-[#9b1c31] transition-colors duration-300">
-        Listen Now
+  <div class="relative z-10 flex flex-col justify-between items-center text-center px-4 w-full max-w-4xl h-full py-12">
+
+    <!-- Top: Large display heading -->
+    <div class="w-full">
+      <a data-hero-heading href="#music" class="text-[#2d5f43] hover:text-[#9b1c31] hover:scale-105 font-bold font-serif uppercase tracking-[0.3em] text-3xl md:text-6xl leading-tight transition-colors transition-opacity transition-transform duration-700 ease-out opacity-0 -translate-y-6 block will-change-transform">
+        Hold The Rose
+      </a>
+    </div>
+
+    <!-- Bottom: CTA button aligned to bottom center -->
+    <div class="w-full flex justify-center">
+      <a data-hero-cta href="#music" class="mt-auto px-8 py-4 bg-[#1b3a2a] text-[#faf8f5] font-bold font-serif uppercase tracking-widest text-sm hover:bg-[#9b1c31] hover:scale-105 transition-colors duration-300 opacity-0 translate-y-6 transition-opacity transition-transform duration-700 ease-out will-change-transform">
+        Coming Soon
       </a>
     </div>
 
   </div>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const hero = document.querySelector('[data-hero]');
+      if (!hero) return;
+      const heading = hero.querySelector('[data-hero-heading]');
+      const cta = hero.querySelector('[data-hero-cta]');
+
+      const observer = new IntersectionObserver((entries, obs) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            heading?.classList.remove('opacity-0', '-translate-y-6');
+            heading?.classList.add('opacity-100', 'translate-y-0');
+            cta?.classList.remove('opacity-0', 'translate-y-6');
+            cta?.classList.add('opacity-100', 'translate-y-0');
+            obs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.2 });
+
+      observer.observe(hero);
+    });
+  </script>
 </section>

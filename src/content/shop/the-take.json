@@ -1,0 +1,12 @@
+{
+  "order": 4,
+  "title": "The Take (Official Digital Lossless)",
+  "type": "digital",
+  "price": "$1.00",
+  "priceInCents": 100,
+  "coverImage": "/src/assets/images/cover_art/singles/The Take Cover Art.png",
+  "description": "24-bit / 44.1kHz uncompressed master audio file.",
+  "inStock": true,
+  "stripePriceId": "price_1U2G4iFvQSwbDBplET7xbVcd",
+  "r2ObjectKey": "masters/the-take-master.wav"
+}

@@ -10,5 +10,5 @@ youtubeMusicUrl: "https://music.youtube.com/playlist?list=OLAK5uy_mReMNsc8vjKnPe
 amazonMusicUrl: "https://music.amazon.com/albums/B0GY5QJXGP?ref=dm_ff_amazonmusic_3p"
 bandcampUrl: "https://manosoul.bandcamp.com/track/stay"
 # soundcloudUrl: ""
-# digitalDownloadUrl: "/store/hold-the-rose" # Can link directly to your site's store page!
+# digitalDownloadUrl: "/shop/hold-the-rose" # Can link directly to your site's shop page!
 ---

@@ -1,24 +1,47 @@
-# build output
-dist/
-# generated types
-.astro/
-
-# dependencies
+# Node dependencies
 node_modules/
 
-# logs
+# Build outputs / caches
+dist/
+.astro/
+.cache/
+public/_assets/
+
+# Env files (secrets)
+.env
+.env.*
+.env.local
+.env.production
+
+# Platform / hosting
+.vercel/
+.netlify/
+/.serverless/
+
+# Keys and credentials
+*.pem
+*.key
+credentials.json
+secrets/
+
+# Database and local data
+*.sqlite
+db/
+tmp/
+
+# Logs
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
+*.log
 
-
-# environment variables
-.env
-.env.production
-
-# macOS-specific files
+# Editor / OS
 .DS_Store
-
-# jetbrains setting folder
+Thumbs.db
+.vscode/
 .idea/
+.history/
+
+# Misc
+.DS_Store?
