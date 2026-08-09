@@ -34,10 +34,8 @@ export const POST: APIRoute = async ({ request }) => {
   let event: Stripe.Event;
 
   try {
-    // Read raw body string for cryptographic signature verification
     const rawBody = await request.text();
     
-    // Verify that the request actually came from Stripe (prevents spoofing attacks)
     event = stripe.webhooks.constructEvent(
       rawBody,
       signature,
@@ -48,46 +46,71 @@ export const POST: APIRoute = async ({ request }) => {
     return new Response(JSON.stringify({ error: `Webhook Error: ${err.message}` }), { status: 400 });
   }
 
-  // Handle successful payments
   if (event.type === 'checkout.session.completed') {
     const session = event.data.object as Stripe.Checkout.Session;
 
-    // Extract metadata set during Phase 3 checkout creation
     const r2ObjectKey = session.metadata?.r2_object_key;
     const customerEmail = session.customer_details?.email;
 
     if (r2ObjectKey) {
       try {
-        // Derive clean filename for the download header (e.g. "masters/endless.wav" -> "endless.wav")
-        const fileName = r2ObjectKey.split('/').pop() || 'download.wav';
+        const fileName = r2ObjectKey.split('/').pop() || 'Digital_Download';
 
-        // Configure S3 GetObject command with ResponseContentDisposition
         const command = new GetObjectCommand({
           Bucket: import.meta.env.R2_BUCKET_NAME,
           Key: r2ObjectKey,
           ResponseContentDisposition: `attachment; filename="${fileName}"`,
         });
 
-        // Generate a temporary 15-minute presigned download URL (900 seconds)
         const downloadUrl = await getSignedUrl(r2Client, command, { expiresIn: 900 });
 
         console.log(`Generated Presigned Download URL for ${customerEmail}: ${downloadUrl}`);
 
-        // --- NEW: PHASE 5 EMAIL DISPATCH ---
         if (customerEmail) {
           const { data, error } = await resend.emails.send({
-            from: 'Manosoul Store <onboarding@resend.dev>', 
+            from: 'Manosoul Shop <shop@manosoul.com>', 
             to: customerEmail,
-            subject: 'Your Download: Hold the Rose (Lossless WAV)',
+            subject: 'Your Download is Ready! | Manosoul',
             html: `
-              <div style="font-family: sans-serif; max-w-md; margin: 0 auto; padding: 20px;">
-                <h1 style="color: #0f1d15;">Thank you for your purchase!</h1>
-                <p>Your high-resolution master file is ready.</p>
-                <p><strong>Note:</strong> For security, this link will expire in exactly 15 minutes.</p>
-                <a href="${downloadUrl}" style="display: inline-block; padding: 12px 24px; background-color: #0f1d15; color: #faf8f5; text-decoration: none; font-weight: bold; margin-top: 20px;">
-                  Download Track Now
-                </a>
-              </div>
+              <!DOCTYPE html>
+              <html lang="en">
+                <head>
+                  <style>
+                    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap');
+                  </style>
+                </head>
+                <body style="margin: 0; padding: 0; background-color: #ffffff;">
+                  <div style="font-family: 'Plus Jakarta Sans', sans-serif; max-width: 600px; margin: 0 auto; padding: 40px 20px; background-color: #ffffff; color: #000000;">
+                    
+                    <h1 style="font-family: 'Space Grotesk', monospace; font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.05em; margin-bottom: 8px;">Order Confirmed</h1>
+                    
+                    <p style="font-size: 16px; line-height: 1.6; margin-bottom: 24px;">
+                      Thank you for your support. Your digital files are securely packaged and ready for download.
+                    </p>
+                    
+                    <div style="border: 1px solid #000000; padding: 24px; margin-bottom: 32px;">
+                      <p style="font-size: 14px; font-weight: 700; margin-top: 0; margin-bottom: 12px; text-transform: uppercase; letter-spacing: 0.05em;">
+                        Item: ${fileName}
+                      </p>
+                      <p style="font-size: 14px; margin-bottom: 24px; color: #333333;">
+                        <strong>Security Note:</strong> This secure download link will expire in exactly 15 minutes.
+                      </p>
+                      
+                      <a href="${downloadUrl}" style="display: inline-block; width: 100%; box-sizing: border-box; text-align: center; padding: 16px 24px; background-color: #000000; color: #ffffff; text-decoration: none; font-family: 'Space Grotesk', monospace; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; transition: background-color 0.3s ease;">
+                        Download Files
+                      </a>
+                    </div>
+
+                    <div style="border-top: 1px solid #eeeeee; padding-top: 24px;">
+                      <p style="font-size: 12px; color: #666666; text-align: center;">
+                        If you have any issues with your download, please reply directly to this email.<br><br>
+                        &copy; ${new Date().getFullYear()} Manosoul. All rights reserved.
+                      </p>
+                    </div>
+
+                  </div>
+                </body>
+              </html>
             `,
           });
 
