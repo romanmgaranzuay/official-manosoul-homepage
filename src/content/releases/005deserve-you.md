@@ -10,5 +10,5 @@ youtubeMusicUrl: "https://music.youtube.com/playlist?list=OLAK5uy_nmJttgjqSUm1v-
 amazonMusicUrl: "https://music.amazon.com/albums/B0GMYNRGYC?ref=dm_ff_amazonmusic_3p"
 bandcampUrl: "https://manosoul.bandcamp.com/track/deserve-you"
 # soundcloudUrl: ""
-# digitalDownloadUrl: "/shop/hold-the-rose" # Can link directly to your site's shop page!
+# digitalDownloadUrl: ""
 ---

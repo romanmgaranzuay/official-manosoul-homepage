@@ -10,5 +10,20 @@ youtubeMusicUrl: "https://music.youtube.com/playlist?list=OLAK5uy_kuY6v6M3ap3q_m
 amazonMusicUrl: "https://www.amazon.com/dp/B0F3LWBP9C?linkCode=osi&th=1&psc=1"
 bandcampUrl: "https://manosoul.bandcamp.com/track/endless"
 # soundcloudUrl: ""
-# digitalDownloadUrl: "/shop/hold-the-rose" # Can link directly to your site's shop page!
+# digitalDownloadUrl: ""
+
+
+# THIS IS A COPY-AND-PASTE TEMPLATE FOR WHEN CREATING OTHER MARKDOWN FILES
+# order: 
+# title: ""
+# slug: ""
+# coverArt: ""
+# spotifyUrl: ""
+# appleMusicUrl: ""
+# youtubeUrl: ""
+# youtubeMusicUrl: ""
+# amazonMusicUrl: ""
+# bandcampUrl: ""
+# soundcloudUrl: ""
+# digitalDownloadUrl: ""
 ---
