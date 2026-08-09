@@ -85,7 +85,7 @@ export const POST: APIRoute = async ({ request }) => {
                     <h1 style="font-family: 'Space Grotesk', monospace; font-size: 24px; font-weight: 700; text-transform: uppercase; letter-spacing: -0.05em; margin-bottom: 8px;">Order Confirmed</h1>
                     
                     <p style="font-size: 16px; line-height: 1.6; margin-bottom: 24px;">
-                      Thank you for your support. Your digital files are securely packaged and ready for download.
+                      Thank you for your support! Your digital file is securely packaged and ready for download.
                     </p>
                     
                     <div style="border: 1px solid #000000; padding: 24px; margin-bottom: 32px;">
@@ -97,7 +97,7 @@ export const POST: APIRoute = async ({ request }) => {
                       </p>
                       
                       <a href="${downloadUrl}" style="display: inline-block; width: 100%; box-sizing: border-box; text-align: center; padding: 16px 24px; background-color: #000000; color: #ffffff; text-decoration: none; font-family: 'Space Grotesk', monospace; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em; transition: background-color 0.3s ease;">
-                        Download Files
+                        Download File
                       </a>
                     </div>
 
