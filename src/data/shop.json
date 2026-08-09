@@ -4,7 +4,7 @@
     "title": "Find A Way(Official Digital Lossless)",
     "type": "Digital",
     "price": "$1.00",
-    "coverImage": "/src/assets/images/cover_art/singles/Find A Way Cover Art.png",
+    "coverImage": "/images/cover_art/singles/Find A Way Cover Art.png",
     "inStock": true,
     "buyUrl": "#"
   },
@@ -13,7 +13,7 @@
     "title": "All I Want (Official Digital Lossless)",
     "type": "Digital",
     "price": "$1.00",
-    "coverImage": "/src/assets/images/cover_art/singles/All I Want Cover Art.png",
+    "coverImage": "/images/cover_art/singles/All I Want Cover Art.png",
     "inStock": true,
     "buyUrl": "#"
   },
@@ -22,7 +22,7 @@
     "title": "The Take (Official Digital Lossless)",
     "type": "Digital",
     "price": "$1.00",
-    "coverImage": "/src/assets/images/cover_art/singles/The Take Cover Art.png",
+    "coverImage": "/images/cover_art/singles/The Take Cover Art.png",
     "inStock": true,
     "buyUrl": "#"
   },
@@ -31,7 +31,7 @@
     "title": "Deserve You (Official Digital Lossless)",
     "type": "Digital",
     "price": "$1.00",
-    "coverImage": "/src/assets/images/cover_art/singles/Deserve You Cover Art.png",
+    "coverImage": "/images/cover_art/singles/Deserve You Cover Art.png",
     "inStock": true,
     "buyUrl": "#"
   },
@@ -40,7 +40,7 @@
     "title": "Stay (Official Digital Lossless)",
     "type": "Digital",
     "price": "$1.00",
-    "coverImage": "/src/assets/images/cover_art/singles/Stay Cover Art.png",
+    "coverImage": "/images/cover_art/singles/Stay Cover Art.png",
     "inStock": true,
     "buyUrl": "#"
   }

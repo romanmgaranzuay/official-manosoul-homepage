@@ -2,7 +2,7 @@
 order: 6
 title: "Stay"
 slug: "stay"
-coverArt: "/src/assets/images/cover_art/singles/Stay Cover Art.png"
+coverArt: "/images/cover_art/singles/Stay Cover Art.png"
 spotifyUrl: "https://open.spotify.com/album/5MsrJ6RS6eUpe1wCKHUYXG"
 appleMusicUrl: "https://geo.music.apple.com/au/album/stay-single/1895176938?app=music&ls=1"
 youtubeUrl: "https://www.youtube.com/playlist?list=OLAK5uy_mReMNsc8vjKnPet1yZCMA9PLrpel5a2J8"

@@ -2,7 +2,7 @@
 order: 4
 title: "The Take"
 slug: "TheTake"
-coverArt: "/src/assets/images/cover_art/singles/The Take Cover Art.png"
+coverArt: "/images/cover_art/singles/The Take Cover Art.png"
 spotifyUrl: "https://open.spotify.com/album/4gJINthKLPjh1fCB3XxhQP"
 appleMusicUrl: "https://geo.music.apple.com/us/album/the-take-single/1870827148?app=music&ls=1"
 youtubeUrl: "https://www.youtube.com/playlist?list=OLAK5uy_nYy8TdxlBC0nLnuSvMdi0sCTljYY3OtPE"

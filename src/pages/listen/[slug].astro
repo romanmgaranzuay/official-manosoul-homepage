@@ -1,7 +1,6 @@
 ---
 // src/pages/listen/[slug].astro
 import { getCollection, type CollectionEntry } from 'astro:content';
-import { getImage } from 'astro:assets';
 import '../../styles/global.css';
 
 // Import all SVG icons
@@ -40,10 +39,8 @@ const {
   digitalDownloadUrl 
 } = entry.data;
 
-// Dynamically resolve and optimize the cover art
-const images = import.meta.glob<{ default: ImageMetadata }>('/src/assets/**/*.{jpeg,jpg,png,gif}');
-if (!images[coverArt]) throw new Error(`"${coverArt}" does not exist in glob: "src/assets/..."`);
-const optimizedCover = await getImage({ src: images[coverArt]() });
+// Cover art is now served from public/images via an absolute URL.
+const optimizedCover = { src: coverArt };
 ---
 
 <html lang="en">
