@@ -10,6 +10,8 @@ appleMusicUrl: "https://geo.music.apple.com/us/album/the-take-single/1870827148?
 youtubeUrl: "https://www.youtube.com/playlist?list=OLAK5uy_nYy8TdxlBC0nLnuSvMdi0sCTljYY3OtPE"
 youtubeMusicUrl: "https://music.youtube.com/playlist?list=OLAK5uy_nYy8TdxlBC0nLnuSvMdi0sCTljYY3OtPE"
 amazonMusicUrl: "https://music.amazon.com/albums/B0GHZ1NXZC?ref=dm_ff_amazonmusic_3p"
+# tidalUrl: ""
+# audioMackUrl: ""
 bandcampUrl: "https://manosoul.bandcamp.com/track/the-take"
 # soundcloudUrl: ""
 # digitalDownloadUrl: ""

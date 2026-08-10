@@ -10,6 +10,8 @@ appleMusicUrl: "https://geo.music.apple.com/au/album/all-i-want/1851537474?i=185
 youtubeUrl: "https://www.youtube.com/watch?v=wOm2yy-Go3Q"
 youtubeMusicUrl: "https://music.youtube.com/watch?v=wOm2yy-Go3Q"
 amazonMusicUrl: "https://music.amazon.com/tracks/B0G1CX4VH5/?ref=dm_ff_amazonmusic_3p"
+tidalUrl: "http://www.tidal.com/track/472465657"
+audioMackUrl: "https://audiomack.com/song/manosoul/all-i-want?utm_source=featurefm&utm_campaign=onelink&utm_medium=website"
 bandcampUrl: "https://manosoul.bandcamp.com/track/all-i-want"
 # soundcloudUrl: ""
 # digitalDownloadUrl: ""

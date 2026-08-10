@@ -16,6 +16,8 @@ const releasesCollection = defineCollection({
     youtubeUrl: z.string().url().optional(),
     youtubeMusicUrl: z.string().url().optional(),
     amazonMusicUrl: z.string().url().optional(),
+    tidalUrl: z.string().url().optional(),
+    audioMackUrl: z.string().url().optional(),
     bandcampUrl: z.string().url().optional(),
     soundcloudUrl: z.string().url().optional(),
     digitalDownloadUrl: z.string().url().optional(),

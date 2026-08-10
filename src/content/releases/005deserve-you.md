@@ -10,6 +10,8 @@ appleMusicUrl: "https://geo.music.apple.com/us/album/deserve-you-single/18766677
 youtubeUrl: "https://www.youtube.com/playlist?list=OLAK5uy_nmJttgjqSUm1v-3F99K4M52_uhn9iEctw"
 youtubeMusicUrl: "https://music.youtube.com/playlist?list=OLAK5uy_nmJttgjqSUm1v-3F99K4M52_uhn9iEctw"
 amazonMusicUrl: "https://music.amazon.com/albums/B0GMYNRGYC?ref=dm_ff_amazonmusic_3p"
+tidalUrl: "http://www.tidal.com/album/498279986"
+# audioMackUrl: ""
 bandcampUrl: "https://manosoul.bandcamp.com/track/deserve-you"
 # soundcloudUrl: ""
 # digitalDownloadUrl: ""
