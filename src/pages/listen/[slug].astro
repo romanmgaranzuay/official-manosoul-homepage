@@ -145,6 +145,7 @@ const META_PIXEL_ID = 'XXXXXXXXXXXXX';
             href={presaveUrl} 
             target="_blank" 
             rel="noopener noreferrer"
+            data-presave="true"
             data-platform="Feature.fm Pre-Save"
             data-title={title}
             class="stream-btn w-full h-[72px] px-6 border-2 border-black/75 bg-black text-white flex items-center justify-center font-bold uppercase tracking-widest hover:bg-white hover:text-black transition-colors duration-300"
@@ -247,6 +248,13 @@ const META_PIXEL_ID = 'XXXXXXXXXXXXX';
 
     <!-- TASK 1: Click Listener for Event Tracking -->
     <script>
+      declare global {
+        interface Window {
+          gtag?: (...args: any[]) => void;
+          fbq?: (...args: any[]) => void;
+        }
+      }
+
       document.addEventListener('DOMContentLoaded', () => {
         const buttons = document.querySelectorAll('.stream-btn');
 
@@ -255,21 +263,47 @@ const META_PIXEL_ID = 'XXXXXXXXXXXXX';
             const target = e.currentTarget as HTMLElement;
             const platform = target.getAttribute('data-platform') || 'Unknown';
             const songTitle = target.getAttribute('data-title') || 'Song';
+            const isPreSave = target.getAttribute('data-presave') === 'true';
 
-            // GA4 Custom Event
-            if (typeof (window as any).gtag === 'function') {
-              (window as any).gtag('event', 'stream_click', {
-                'platform': platform,
-                'song_title': songTitle
-              });
-            }
+            if (isPreSave) {
+              // --- PRE-SAVE EVENT ---
+              
+              // 1. GA4 Custom Event
+              if (typeof window.gtag === 'function') {
+                window.gtag('event', 'presave_click', {
+                  'platform': platform,
+                  'song_title': songTitle
+                });
+              }
 
-            // Meta Pixel Custom Event
-            if (typeof (window as any).fbq === 'function') {
-              (window as any).fbq('trackCustom', 'OutboundStreamClick', {
-                platform: platform,
-                song_title: songTitle
-              });
+              // 2. Meta Pixel (Standard 'Lead' + Custom 'PreSaveClick')
+              if (typeof window.fbq === 'function') {
+                window.fbq('track', 'Lead', { content_name: songTitle });
+                window.fbq('trackCustom', 'PreSaveClick', {
+                  platform: platform,
+                  song_title: songTitle
+                });
+              }
+
+            } else {
+              // --- LIVE STREAMING CLICK EVENT ---
+              
+              // 1. GA4 Custom Event
+              if (typeof window.gtag === 'function') {
+                window.gtag('event', 'select_music_platform', {
+                  'platform': platform,
+                  'song_title': songTitle
+                });
+              }
+
+              // 2. Meta Pixel (Standard 'ViewContent' + Custom 'OutboundStreamClick')
+              if (typeof window.fbq === 'function') {
+                window.fbq('track', 'ViewContent', { content_name: songTitle });
+                window.fbq('trackCustom', 'OutboundStreamClick', {
+                  platform: platform,
+                  song_title: songTitle
+                });
+              }
             }
           });
         });
