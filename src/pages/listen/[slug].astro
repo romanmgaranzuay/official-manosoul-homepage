@@ -49,60 +49,85 @@ const META_PIXEL_ID = 'XXXXXXXXXXXXX';
 
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Manosoul - {title}</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Manosoul - {title}</title>
+  
+  <!-- Primary SEO -->
+  <meta name="description" content={`Listen to "${title}" by Manosoul on Spotify, Apple Music, YouTube, and more.`} />
+  <link rel="canonical" href={pageUrl} />
+  <meta name="theme-color" content="#ffffff" />
 
-    <!-- TASK 5: Rich Open Graph & Social Cards -->
-    <meta property="og:site_name" content="Manosoul" />
-    <meta property="og:title" content={`Manosoul - ${title}`} />
-    <meta property="og:description" content={`Listen to "${title}" by Manosoul on Spotify, Apple Music, YouTube, and more.`} />
-    <meta property="og:image" content={fullCoverUrl} />
-    <meta property="og:url" content={pageUrl} />
-    <meta property="og:type" content="music.song" />
+  <!-- Icons & Web App Manifest -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <link rel="manifest" href="/site.webmanifest" />
 
-    <!-- Twitter / X Meta Tags -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={`Manosoul - ${title}`} />
-    <meta name="twitter:description" content={`Listen to "${title}" by Manosoul on streaming services.`} />
-    <meta name="twitter:image" content={fullCoverUrl} />
+  <!-- Open Graph / Facebook -->
+  <meta property="og:site_name" content="Manosoul" />
+  <meta property="og:type" content="music.song" />
+  <meta property="og:url" content={pageUrl} />
+  <meta property="og:title" content={`Manosoul - ${title}`} />
+  <meta property="og:description" content={`Listen to "${title}" by Manosoul on Spotify, Apple Music, YouTube, and more.`} />
+  <meta property="og:image" content={fullCoverUrl} />
+  <meta property="og:image:alt" content={`Album cover art for ${title} by Manosoul`} />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="1200" />
+  <meta property="og:locale" content="en_US" />
 
-    <!-- TASK 1: Google Analytics (GA4) -->
-<!-- Google tag (gtag.js) -->
-    <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-J2WQN5Q5E2"></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
+  <!-- Twitter / X -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:site" content="@manosoul0" />
+  <meta name="twitter:title" content={`Manosoul - ${title}`} />
+  <meta name="twitter:description" content={`Listen to "${title}" by Manosoul on streaming services.`} />
+  <meta name="twitter:image" content={fullCoverUrl} />
 
-      gtag('config', 'G-J2WQN5Q5E2', {
-        debug_mode: true
-      });
-    </script>
+  <!-- Structured Data (JSON-LD for Music Recording) -->
+  <script is:inline type="application/ld+json" set:html={JSON.stringify({
+    "@context": "https://schema.org",
+    "@type": "MusicRecording",
+    "name": title,
+    "url": pageUrl,
+    "image": fullCoverUrl,
+    "byArtist": {
+      "@type": "MusicGroup",
+      "name": "Manosoul",
+      "url": "https://manosoul.com"
+    },
+    "inAlbum": {
+      "@type": "MusicAlbum",
+      "name": title
+    }
+  })} />
 
-<!-- Meta Pixel Code -->
-    <script is:inline>
-      !function(f,b,e,v,n,t,s)
-      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-      n.queue=[];t=b.createElement(e);t.async=!0;
-      t.src=v;s=b.getElementsByTagName(e)[0];
-      s.parentNode.insertBefore(t,s)}(window, document,'script',
-      'https://connect.facebook.net/en_US/fbevents.js');
-      fbq('init', '978519845242201');
-      fbq('track', 'PageView');
-    </script>
+  <!-- Google Analytics (GA4) -->
+  <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-J2WQN5Q5E2"></script>
+  <script is:inline>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-J2WQN5Q5E2', { debug_mode: true });
+  </script>
 
-    <noscript>
-      <img 
-        height="1" 
-        width="1" 
-        style="display:none"
-        src="https://www.facebook.com/tr?id=978519845242201&ev=PageView&noscript=1"
-      />
-    </noscript>
-  </head>
+  <!-- Meta Pixel Code -->
+  <script is:inline>
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', '978519845242201');
+    fbq('track', 'PageView');
+  </script>
+
+  <noscript>
+    <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=978519845242201&ev=PageView&noscript=1" />
+  </noscript>
+</head>
 
   <body class="relative min-h-screen w-full flex flex-col items-center justify-start p-6 pt-8 md:pt-12 pb-16 font-sans overflow-y-auto">
     
