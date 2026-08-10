@@ -22,24 +22,24 @@ const releasesCollection = defineCollection({
   }),
 });
 
-// NEW: Define the Shop Collection
+// The shop collection powers the merch grid and the Stripe checkout flow.
 const shopCollection = defineCollection({
   loader: glob({ pattern: '**/*.json', base: './src/content/shop' }),
   schema: z.object({
     order: z.number().optional(),
     title: z.string(),
     type: z.enum(['digital', 'physical']),
-    price: z.string(), // Display string, e.g., "$1.99"
+    price: z.string(), // Display string shown in the UI, e.g. "$1.99"
     priceInCents: z.number(), // Amount in cents for Stripe API, e.g., 199
     coverImage: z.string(),
     description: z.string().optional(),
     inStock: z.boolean().default(true),
-    stripePriceId: z.string(), // Stripe Price ID (e.g., "price_1N...")
-    r2ObjectKey: z.string().optional(), // Key in your R2 bucket (e.g., "masters/hold-the-rose.wav")
+    stripePriceId: z.string(), // Stripe Price ID used to create the checkout line item.
+    r2ObjectKey: z.string().optional(), // R2 object key used later to generate the download link.
   }),
 });
 
 export const collections = {
   releases: releasesCollection,
-  shop: shopCollection, // NEW
+  shop: shopCollection,
 };

@@ -11,7 +11,7 @@ interface VideoData {
 }
 ---
 
-<!-- NEW: Added id, opacity-0, and -translate-x-16 -->
+<!-- Videos carousel with inline YouTube playback modal. -->
 <div id="videos-container" class="w-full opacity-0 -translate-x-16 transition-all duration-2000 ease-out">
   
   <div class="flex items-end justify-between mb-8">
@@ -46,7 +46,7 @@ interface VideoData {
           </div>
 
           <div class="w-full p-6 pt-5">
-            <h3 class="text-[#2d5f43] text-3xl md:text-4xl font-serif text-[#0] uppercase tracking-tight">{video.title}</h3>
+            <h3 class="text-[#2d5f43] text-3xl md:text-4xl font-serif uppercase tracking-tight">{video.title}</h3>
           </div>
 
         </div>
@@ -77,8 +77,7 @@ interface VideoData {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    
-    // --- NEW SCROLL ANIMATION LOGIC ---
+    // Reveal the section once it enters the viewport.
     const videosContainer = document.getElementById('videos-container');
     
     if (videosContainer) {
@@ -95,7 +94,6 @@ interface VideoData {
 
       observer.observe(videosContainer);
     }
-    // -----------------------------------
 
     const track = document.getElementById('video-track') as HTMLElement;
     const nextBtn = document.getElementById('next-video') as HTMLButtonElement;
@@ -152,6 +150,7 @@ interface VideoData {
       if (endX > startX + 50) prevSlide(); 
     });
 
+    // Clicking a play button swaps the modal iframe source to the selected YouTube video.
     document.querySelectorAll('.play-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const slide = btn.closest('[data-youtube-id]');

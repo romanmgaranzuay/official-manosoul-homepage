@@ -1,10 +1,10 @@
 import type { APIRoute } from 'astro';
 import Stripe from 'stripe';
 
-// This opts this specific route out of static build, running it on the server
+// This route must run on the server so Stripe can create a checkout session.
 export const prerender = false; 
 
-// Initializing with the exact API version installed to clear the TypeScript error
+// Pin the Stripe API version so the SDK behavior stays predictable.
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
   apiVersion: '2026-07-29.dahlia', 
 });
@@ -18,13 +18,12 @@ export const POST: APIRoute = async ({ request, url }) => {
       return new Response(JSON.stringify({ error: 'Missing required fields' }), { status: 400 });
     }
 
-    // Generate the secure payment session
+    // Persist the R2 key in metadata so the webhook can build the download link after payment.
     const session = await stripe.checkout.sessions.create({
       line_items: [{ price: priceId, quantity: 1 }],
       mode: 'payment',
       success_url: `${url.origin}/success`,
       cancel_url: `${url.origin}/#shop`,
-      // CRITICAL: We pass the Cloudflare path in the metadata so Phase 4 can access it!
       metadata: {
         item_type: 'digital',
         r2_object_key: r2ObjectKey, 

@@ -18,7 +18,7 @@ const {
   ogType = "website"
 } = Astro.props;
 
-// Dynamic canonical and relative resolution using Astro's built-in URL resolvers
+// Resolve canonical and share-image URLs from the current page so metadata stays correct everywhere.
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://manosoul.com');
 const fullImageUrl = new URL(image, Astro.site || 'https://manosoul.com').href;
 ---
@@ -31,7 +31,7 @@ const fullImageUrl = new URL(image, Astro.site || 'https://manosoul.com').href;
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
 
-        <!-- Primary SEO -->
+        <!-- Primary SEO and social sharing metadata for every page -->
         <title>{title}</title>
         <meta name="description" content={description} />
         <link rel="canonical" href={canonicalURL.href} />
@@ -82,7 +82,7 @@ const fullImageUrl = new URL(image, Astro.site || 'https://manosoul.com').href;
         <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
         <!-- Google Analytics (GA4) -->
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-J2WQN5Q5E2"></script>
         <script is:inline>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -127,13 +127,13 @@ const fullImageUrl = new URL(image, Astro.site || 'https://manosoul.com').href;
     </head>
     <body class="bg-[#faf8f5] text-[#1b3a2a] font-sans min-h-screen flex flex-col selection:bg-[#1b3a2a] selection:text-[#faf8f5] relative overflow-x-hidden" style="background-color: #faf8f5 !important; color: #1b3a2a !important;">
     
-    <!-- Canvas Texture Overlay -->
+    <!-- Subtle texture overlay keeps large open areas from feeling flat. -->
     <div 
         class="fixed inset-0 pointer-events-none z-50 opacity-[0.035] mix-blend-overlay"
         style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E');"
     ></div>
 
-    <!-- Page Content Stack -->
+    <!-- Page shell: navbar, centered content, and footer. Individual sections can still opt into full-bleed layouts. -->
     <div class="relative z-10 flex flex-col min-h-screen w-full">
         <Navbar />
 

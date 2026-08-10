@@ -13,6 +13,7 @@ import bandcampIcon from '../../assets/icons/bandcamp.svg';
 import soundcloudIcon from '../../assets/icons/soundcloud.svg';
 
 export async function getStaticPaths() {
+  // Build one smart-link page per release entry.
   const releaseEntries = await getCollection('releases');
   return releaseEntries.map((entry: CollectionEntry<'releases'>) => ({
     params: { slug: entry.data.slug || entry.id },
@@ -39,9 +40,10 @@ const {
   soundcloudUrl 
 } = entry.data;
 
+// Cover art is served from public/images, so the collection value can be used directly.
 const optimizedCover = { src: coverArt };
 
-// Dynamically resolve canonical & absolute asset URLs using Astro.url and Astro.site
+// Canonical and OG image URLs are derived from the active site origin.
 const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://manosoul.com');
 const fullCoverUrl = new URL(coverArt, Astro.site || 'https://manosoul.com').href;
 ---
@@ -159,7 +161,7 @@ const fullCoverUrl = new URL(coverArt, Astro.site || 'https://manosoul.com').hre
         {isPreSave ? 'Pre-Save on Spotify, Apple Music, and more!' : 'Choose Your Music Service'}
       </p>
 
-      <!-- TASK 4: Pre-Save Toggle vs Live Links -->
+      <!-- Pre-save releases use a single CTA; live releases expose platform buttons. -->
       {isPreSave && presaveUrl ? (
         <div class="w-full flex flex-col items-center gap-4">
           {/* <p class="text-sm text-black/80 text-center mb-2">
@@ -222,7 +224,7 @@ const fullCoverUrl = new URL(coverArt, Astro.site || 'https://manosoul.com').hre
 
           {amazonMusicUrl && (
             <a href={amazonMusicUrl} target="_blank" rel="noopener noreferrer" data-platform="Amazon Music" data-title={title} class="stream-btn relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#3f1fe7] hover:border-[#3f1fe7]">
-              <img src={amazonIcon.src} alt="Amazon Music" class="w-33 h-10 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
+              <img src={amazonIcon.src} alt="Amazon Music" class="w-32 h-10 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
               <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
                 <span class="border border-black/50 text-black/80 px-4 py-1.5 text-xs uppercase tracking-widest font-bold transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-x-8">Play</span>
                 <span class="absolute text-white text-xl font-bold opacity-0 translate-x-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-hover:scale-[2]">&rarr;</span>
@@ -232,7 +234,7 @@ const fullCoverUrl = new URL(coverArt, Astro.site || 'https://manosoul.com').hre
 
           {bandcampUrl && (
             <a href={bandcampUrl} target="_blank" rel="noopener noreferrer" data-platform="Bandcamp" data-title={title} class="stream-btn relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/70 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#629AA9] hover:border-[#629AA9]">
-              <img src={bandcampIcon.src} alt="Bandcamp" class="w-33 h-8 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
+              <img src={bandcampIcon.src} alt="Bandcamp" class="w-32 h-8 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
               <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
                 <span class="border border-black/50 text-black/80 px-4 py-1.5 text-xs uppercase tracking-widest font-bold transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-x-8">Play</span>
                 <span class="absolute text-white text-xl font-bold opacity-0 translate-x-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-hover:scale-[2]">&rarr;</span>
@@ -242,7 +244,7 @@ const fullCoverUrl = new URL(coverArt, Astro.site || 'https://manosoul.com').hre
 
           {soundcloudUrl && (
             <a href={soundcloudUrl} target="_blank" rel="noopener noreferrer" data-platform="SoundCloud" data-title={title} class="stream-btn relative w-full h-[72px] px-6 border-2 border-black/75 bg-white/80 backdrop-blur-md flex items-center overflow-hidden transition-colors duration-500 group hover:bg-[#FF5500] hover:border-[#FF5500]">
-              <img src={soundcloudIcon.src} alt="SoundCloud" class="w-33 h-8 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
+              <img src={soundcloudIcon.src} alt="SoundCloud" class="w-32 h-8 object-contain object-left transition-all duration-500 ease-out group-hover:-translate-x-[150%] group-hover:opacity-0" />
               <div class="absolute right-6 flex items-center justify-center transition-all duration-500 ease-out group-hover:right-1/2 group-hover:translate-x-1/2">
                 <span class="border border-black/50 text-black/80 px-4 py-1.5 text-xs uppercase tracking-widest font-bold transition-all duration-300 ease-out group-hover:opacity-0 group-hover:-translate-x-8">Play</span>
                 <span class="absolute text-white text-xl font-bold opacity-0 translate-x-4 transition-all duration-500 ease-out group-hover:opacity-100 group-hover:translate-x-0 group-hover:scale-[2]">&rarr;</span>
@@ -270,7 +272,7 @@ const fullCoverUrl = new URL(coverArt, Astro.site || 'https://manosoul.com').hre
 
     </main>
 
-    <!-- TASK 1: Click Listener for Event Tracking -->
+    <!-- Track clicks on streaming buttons so analytics and pixels stay in sync. -->
     <script>
       declare global {
         interface Window {

@@ -7,12 +7,12 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 export const prerender = false;
 
-// Initialize Stripe SDK
+// Stripe verifies the checkout event before we generate any download access.
 const stripe = new Stripe(import.meta.env.STRIPE_SECRET_KEY, {
   apiVersion: '2026-07-29.dahlia',
 });
 
-// Initialize Cloudflare R2 Client via S3 Compatible API
+// Cloudflare R2 is accessed through the S3-compatible API for signed downloads.
 const r2Client = new S3Client({
   region: 'auto',
   endpoint: `https://${import.meta.env.R2_ACCOUNT_ID}.r2.cloudflarestorage.com`,
@@ -34,6 +34,7 @@ export const POST: APIRoute = async ({ request }) => {
   let event: Stripe.Event;
 
   try {
+    // Stripe needs the raw request body for signature verification.
     const rawBody = await request.text();
     
     event = stripe.webhooks.constructEvent(
@@ -56,6 +57,7 @@ export const POST: APIRoute = async ({ request }) => {
       try {
         const fileName = r2ObjectKey.split('/').pop() || 'Digital_Download';
 
+        // Generate a short-lived signed URL so the buyer can download the purchased file.
         const command = new GetObjectCommand({
           Bucket: import.meta.env.R2_BUCKET_NAME,
           Key: r2ObjectKey,
@@ -67,6 +69,7 @@ export const POST: APIRoute = async ({ request }) => {
         console.log(`Generated Presigned Download URL for ${customerEmail}: ${downloadUrl}`);
 
         if (customerEmail) {
+          // Send the download link by email once the payment has cleared.
           const { data, error } = await resend.emails.send({
             from: 'Manosoul Shop <shop@manosoul.com>', 
             to: customerEmail,

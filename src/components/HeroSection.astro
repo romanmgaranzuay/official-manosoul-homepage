@@ -7,23 +7,15 @@
   overflow-hidden ensures no weird horizontal scrolling happens.
 -->
 <section data-hero class="relative left-1/2 w-screen -translate-x-1/2 h-[95dvh] flex items-center justify-center overflow-hidden">
-  
-  {/* The Full-Bleed Background Image */}
+
+  <!-- Full-bleed hero image sits behind the centered call-to-action. -->
   <img 
     src="/images/Manosoul Banner 2.png" 
     alt="Artist Hero" 
     class="absolute inset-0 w-full h-full object-cover object-top"
   />
 
-  {/* Gradient Overlays 
-  <div class="absolute inset-0 bg-[#e2ebd3]/30"></div>
-  <div class="absolute inset-0 bg-gradient-to-t from-[#e2ebd3] via-[#e2ebd3]/55 to-transparent"></div>
-  */}
-
-  {/* 
-    Hero Content
-    1. Added "group" to this main wrapper. 
-  */}
+  <!-- The hero content is intentionally layered above the image so the section stays readable. -->
   <div class="relative z-10 flex flex-col justify-between items-center text-center px-4 w-full max-w-4xl h-full py-12">
 
     <!-- Top: Large display heading -->
@@ -42,6 +34,7 @@
 
   </div>
   <script>
+    // Fade in the heading and CTA once the hero scrolls into view.
     document.addEventListener('DOMContentLoaded', () => {
       const hero = document.querySelector('[data-hero]');
       if (!hero) return;

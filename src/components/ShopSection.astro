@@ -2,28 +2,28 @@
 // src/components/StoreSection.astro
 import { getCollection } from 'astro:content';
 
-// Fetch all shop items from Content Collections
+// Load merch from the shop content collection so each item can live in its own JSON file.
 const shopEntries = await getCollection('shop');
 
-// Sort entries by order (or fallback to default order)
+// Reverse the rendered order so newer items appear first in the grid.
 const shopItems = shopEntries
   .map(entry => entry.data)
   .sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
 ---
 
-<!-- Change "store-container" to "shop-container" -->
+<!-- Shop grid with scroll reveal and Stripe checkout wiring. -->
 <div id="shop-container" class="w-full opacity-0 translate-x-16 transition-all duration-2000 ease-out">
-  
+
   <div class="flex items-end justify-between mb-12">
     <h2 class="text-3xl md:text-5xl font-bold font-serif tracking-tighter uppercase text-[#faf8f5]">Shop</h2>
     <p class="text-[#faf8f5] text-sm font-serif tracking-widest uppercase hidden md:block">Official Merchandise</p>
   </div>
 
   <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-    
+
     {[...shopItems].reverse().map((item) => (
       <div class="group flex flex-col">
-        
+
         <div class="relative overflow-hidden bg-[#faf8f5] aspect-square mb-6">
           <img 
             src={item.coverImage} 
@@ -68,7 +68,7 @@ const shopItems = shopEntries
   </div>
 </div>
 
-<!-- NEW: Scroll Animation Script -->
+<!-- Scroll reveal for the shop grid. -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     const shopContainer = document.getElementById('shop-container');
@@ -98,18 +98,18 @@ const shopItems = shopEntries
       button.addEventListener('click', async (e) => {
         const btn = e.currentTarget as HTMLButtonElement;
         
-        // Prevent double-clicks & update UI
+        // Lock the button while the checkout session is created.
         const originalText = btn.innerText;
         btn.disabled = true;
         btn.innerText = 'REDIRECTING...';
         btn.classList.add('opacity-75', 'cursor-wait');
 
-        // Extract the exact Stripe ID and Cloudflare path from the button
+        // Pass the Stripe price ID and R2 object key to the checkout endpoint.
         const priceId = btn.getAttribute('data-price-id');
         const r2ObjectKey = btn.getAttribute('data-r2-key');
 
         try {
-          // Send request to our Astro API Route
+          // Create the Stripe checkout session on the server.
           const response = await fetch('/api/create-checkout', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -118,7 +118,7 @@ const shopItems = shopEntries
           
           const data = await response.json();
           
-          // Redirect browser to Stripe Checkout
+          // Redirect the browser to Stripe Checkout when the session is ready.
           if (data.url) {
             window.location.href = data.url; 
           } else {

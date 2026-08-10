@@ -14,12 +14,12 @@ import SubscribeSection from '../components/SubscribeSection.astro';
   description="Official homepage of Manosoul. Check out the latest music and events."
   image="/images/Manosoul Banner 2.png"
 >
-  
+
   <section id="home" class="min-h-[80vh]">
       <HeroSection />
   </section>
 
-  <!-- FULL BLEED DARK EVERGREEN SECTION -->
+    <!-- These sections intentionally break out of the centered layout and span the viewport. -->
   <section id="shop" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
       <div class="max-w-7xl mx-auto px-6 w-full">
           <ShopSection />
@@ -30,7 +30,6 @@ import SubscribeSection from '../components/SubscribeSection.astro';
       <VideosSection />
   </section>
 
-  <!-- FULL BLEED DARK EVERGREEN SECTION -->
   <section id="music" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
       <div class="max-w-7xl mx-auto px-6 w-full">
           <MusicSection />
@@ -41,7 +40,6 @@ import SubscribeSection from '../components/SubscribeSection.astro';
       <EventsSection />
   </section>
 
-  <!-- FULL BLEED DARK EVERGREEN SECTION -->
   <section id="subscribe" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
       <div class="max-w-7xl mx-auto px-6 w-full">
           <SubscribeSection />
