@@ -9,6 +9,8 @@ const releasesCollection = defineCollection({
     title: z.string(),
     slug: z.string().optional(),
     coverArt: z.string(),
+    isPreSave: z.boolean().default(false),
+    presaveUrl: z.string().url().optional(),
     spotifyUrl: z.string().url().optional(),
     appleMusicUrl: z.string().url().optional(),
     youtubeUrl: z.string().url().optional(),
