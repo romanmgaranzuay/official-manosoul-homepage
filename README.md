@@ -71,12 +71,7 @@ To test Stripe payment fulfillment locally without exposing development ports:
 ```bash
 stripe listen --forward-to localhost:4321/api/stripe-webhook
 ```
----
 
-### 2. Add an "Incident Response & Fail-Safe Strategy" Section
-In Cloud Security, knowing what happens when something fails is just as important as building the system. Adding a brief section on how your architecture handles edge failures demonstrates operational maturity.
-
-```markdown
 ## 🛑 Threat Model & Failure Mitigation
 
 | Attack / Failure Vector | Defense Mechanism | Risk Mitigation |
@@ -85,7 +80,6 @@ In Cloud Security, knowing what happens when something fails is just as importan
 | **Direct Asset Exfiltration** | Private R2 Bucket + 15-Min Presigned URLs | Prevents public enumeration or direct hotlinking of master audio files. |
 | **Distributed Bot Spam** | Astro Edge Middleware Origin Filtering | Drops unauthorized cross-origin API calls before execution. |
 | **Mail Delivery Interception** | Strict DNS Authentication (SPF, DKIM, DMARC) | Prevents domain impersonation and spoofed download emails. |
-```
 
 ## Repository File Structure
 
