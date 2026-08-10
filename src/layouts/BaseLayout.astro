@@ -29,6 +29,7 @@ const fullImageUrl = new URL(image, Astro.site || 'https://manosoul.com').href;
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
         <meta name="color-scheme" content="light" />
+        <meta name="supported-color-schemes" content="light" />
 
         <!-- Primary SEO -->
         <title>{title}</title>
@@ -124,7 +125,7 @@ const fullImageUrl = new URL(image, Astro.site || 'https://manosoul.com').href;
             ml('account', '1429872');
         </script>
     </head>
-    <body class="bg-[#faf8f5] text-[#1b3a2a] font-sans min-h-screen flex flex-col selection:bg-[#1b3a2a] selection:text-[#faf8f5] relative overflow-x-hidden">
+    <body class="bg-[#faf8f5] text-[#1b3a2a] font-sans min-h-screen flex flex-col selection:bg-[#1b3a2a] selection:text-[#faf8f5] relative overflow-x-hidden" style="background-color: #faf8f5 !important; color: #1b3a2a !important;">
     
     <!-- Canvas Texture Overlay -->
     <div 
