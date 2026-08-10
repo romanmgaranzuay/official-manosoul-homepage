@@ -9,41 +9,43 @@ import EventsSection from '../components/EventsSection.astro';
 import SubscribeSection from '../components/SubscribeSection.astro';
 ---
 
-<BaseLayout title="Home | Manosoul" description="Official homepage of Manosoul, the artist. Discover music, videos, events, and exclusive merchandise.">
+<BaseLayout 
+  title="Manosoul | Official Website" 
+  description="Official homepage of Manosoul. Check out the latest music and events."
+  image="/images/Manosoul Banner 2.png"
+>
   
-  <!-- Each section needs an ID that matches the Navbar href -->
-  
-    <section id="home" class="min-h-[80vh]">
-        <HeroSection />
-    </section>
+  <section id="home" class="min-h-[80vh]">
+      <HeroSection />
+  </section>
 
-    <!-- FULL BLEED DARK EVERGREEN SECTION -->
-    <section id="shop" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
-        <div class="max-w-7xl mx-auto px-6 w-full">
-            <ShopSection />
-        </div>
-    </section>
+  <!-- FULL BLEED DARK EVERGREEN SECTION -->
+  <section id="shop" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
+      <div class="max-w-7xl mx-auto px-6 w-full">
+          <ShopSection />
+      </div>
+  </section>
 
-    <section id="videos" class="py-24 border-t border-[#e2ebd3]">
-        <VideosSection />
-    </section>
+  <section id="videos" class="py-24 border-t border-[#e2ebd3]">
+      <VideosSection />
+  </section>
 
-    <!-- FULL BLEED DARK EVERGREEN SECTION -->
-    <section id="music" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
-        <div class="max-w-7xl mx-auto px-6 w-full">
-            <MusicSection />
-        </div>
-    </section>
+  <!-- FULL BLEED DARK EVERGREEN SECTION -->
+  <section id="music" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
+      <div class="max-w-7xl mx-auto px-6 w-full">
+          <MusicSection />
+      </div>
+  </section>
 
-    <section id="events" class="py-24 border-t border-[#0f1d15]">
-        <EventsSection />
-    </section>
+  <section id="events" class="py-24 border-t border-[#0f1d15]">
+      <EventsSection />
+  </section>
 
-    <!-- FULL BLEED DARK EVERGREEN SECTION -->
-    <section id="subscribe" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
-        <div class="max-w-7xl mx-auto px-6 w-full">
-            <SubscribeSection />
-        </div>
-    </section>
+  <!-- FULL BLEED DARK EVERGREEN SECTION -->
+  <section id="subscribe" class="py-24 border-t border-[#0f1d15] bg-[#0f1d15] relative left-1/2 w-screen -translate-x-1/2">
+      <div class="max-w-7xl mx-auto px-6 w-full">
+          <SubscribeSection />
+      </div>
+  </section>
 
 </BaseLayout>

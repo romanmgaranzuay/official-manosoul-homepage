@@ -1,4 +1,5 @@
 ---
+// src/pages/listen/[slug].astro
 import { getCollection, type CollectionEntry } from 'astro:content';
 import '../../styles/global.css';
 
@@ -39,12 +40,10 @@ const {
 } = entry.data;
 
 const optimizedCover = { src: coverArt };
-const pageUrl = `https://manosoul.com/listen/${entry.data.slug || entry.id}`;
-const fullCoverUrl = `https://manosoul.com${coverArt}`;
 
-// Replace with your real measurement / pixel IDs
-const GA_MEASUREMENT_ID = 'G-XXXXXXXXXX'; 
-const META_PIXEL_ID = 'XXXXXXXXXXXXX';
+// Dynamically resolve canonical & absolute asset URLs using Astro.url and Astro.site
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://manosoul.com');
+const fullCoverUrl = new URL(coverArt, Astro.site || 'https://manosoul.com').href;
 ---
 
 <html lang="en">
@@ -55,7 +54,7 @@ const META_PIXEL_ID = 'XXXXXXXXXXXXX';
   
   <!-- Primary SEO -->
   <meta name="description" content={`Listen to "${title}" by Manosoul on Spotify, Apple Music, YouTube, and more.`} />
-  <link rel="canonical" href={pageUrl} />
+  <link rel="canonical" href={canonicalURL.href} />
   <meta name="theme-color" content="#ffffff" />
 
   <!-- Icons & Web App Manifest -->
@@ -67,7 +66,7 @@ const META_PIXEL_ID = 'XXXXXXXXXXXXX';
   <!-- Open Graph / Facebook -->
   <meta property="og:site_name" content="Manosoul" />
   <meta property="og:type" content="music.song" />
-  <meta property="og:url" content={pageUrl} />
+  <meta property="og:url" content={canonicalURL.href} />
   <meta property="og:title" content={`Manosoul - ${title}`} />
   <meta property="og:description" content={`Listen to "${title}" by Manosoul on Spotify, Apple Music, YouTube, and more.`} />
   <meta property="og:image" content={fullCoverUrl} />
@@ -88,7 +87,7 @@ const META_PIXEL_ID = 'XXXXXXXXXXXXX';
     "@context": "https://schema.org",
     "@type": "MusicRecording",
     "name": title,
-    "url": pageUrl,
+    "url": canonicalURL.href,
     "image": fullCoverUrl,
     "byArtist": {
       "@type": "MusicGroup",

@@ -3,17 +3,83 @@
 import '../styles/global.css'; 
 import Navbar from '../components/Navbar.astro';
 
-const { title = "My Artist Website", fullWidth = false } = Astro.props;
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  ogType?: string;
+  fullWidth?: boolean;
+}
+
+const { 
+  title = "Manosoul | Official Website", 
+  description = "Official homepage of Manosoul. Check out the latest music and events.",
+  image = "/images/Manosoul Banner 2.png", // Create or point to a default share image in public/
+  ogType = "website"
+} = Astro.props;
+
+// Dynamic canonical and relative resolution using Astro's built-in URL resolvers
+const canonicalURL = new URL(Astro.url.pathname, Astro.site || 'https://manosoul.com');
+const fullImageUrl = new URL(image, Astro.site || 'https://manosoul.com').href;
 ---
 
-<!-- Add scroll-smooth right here -->
 <html lang="en" class="scroll-smooth">
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-        <!-- Google tag (gtag.js) -->
-        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=G-J2WQN5Q5E2"></script>
+        <!-- Primary SEO -->
+        <title>{title}</title>
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalURL.href} />
+        <meta name="theme-color" content="#ffffff" />
+
+        <!-- Icons & Web App Manifest -->
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:site_name" content="Manosoul" />
+        <meta property="og:type" content={ogType} />
+        <meta property="og:url" content={canonicalURL.href} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={fullImageUrl} />
+        <meta property="og:image:alt" content="Manosoul Official Banner" />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
+        <meta property="og:locale" content="en_US" />
+
+        <!-- Twitter / X -->
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:site" content="@manosoul0" />
+        <meta name="twitter:title" content={title} />
+        <meta name="twitter:description" content={description} />
+        <meta name="twitter:image" content={fullImageUrl} />
+
+        <!-- Structured Data (JSON-LD for Music Group / Artist) -->
+        <script is:inline type="application/ld+json" set:html={JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "MusicGroup",
+          "name": "Manosoul",
+          "url": "https://manosoul.com",
+          "image": fullImageUrl,
+          "sameAs": [
+            "https://www.instagram.com/manosoul0/",
+            "https://www.tiktok.com/@manosoul0",
+            "https://x.com/manosoul0"
+          ]
+        })} />
+
+        <!-- Google Fonts: Cormorant Garamond, Plus Jakarta Sans, Space Grotesk -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+        <!-- Google Analytics (GA4) -->
+        <script is:inline async src="https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}"></script>
         <script is:inline>
             window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
@@ -39,19 +105,14 @@ const { title = "My Artist Website", fullWidth = false } = Astro.props;
         </script>
 
         <noscript>
-        <img 
-            height="1" 
-            width="1" 
-            style="display:none"
-            src="https://www.facebook.com/tr?id=978519845242201&ev=PageView&noscript=1"
-        />
+          <img 
+              height="1" 
+              width="1" 
+              style="display:none"
+              src="https://www.facebook.com/tr?id=978519845242201&ev=PageView&noscript=1"
+          />
         </noscript>
 
-        <title>{title}</title>
-        <!-- Google Fonts: Cormorant Garamond (serif), Plus Jakarta Sans (sans), Space Grotesk (mono) -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
         <!-- MailerLite Universal -->
         <script is:inline>
             (function(w,d,e,u,f,l,n){w[f]=w[f]||function(){(w[f].q=w[f].q||[])
@@ -60,17 +121,16 @@ const { title = "My Artist Website", fullWidth = false } = Astro.props;
             (window,document,'script','https://assets.mailerlite.com/js/universal.js','ml');
             ml('account', '1429872');
         </script>
-        <!-- End MailerLite Universal -->
     </head>
     <body class="bg-[#faf8f5] text-[#1b3a2a] font-sans min-h-screen flex flex-col selection:bg-[#1b3a2a] selection:text-[#faf8f5] relative overflow-x-hidden">
     
-    {/* 1. Canvas Texture Overlay (Fixed quote syntax inside style) */}
+    <!-- Canvas Texture Overlay -->
     <div 
         class="fixed inset-0 pointer-events-none z-50 opacity-[0.035] mix-blend-overlay"
         style="background-image: url('data:image/svg+xml,%3Csvg viewBox=\'0 0 200 200\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noiseFilter\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.8\' numOctaves=\'3\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noiseFilter)\'/%3E%3C/svg%3E');"
     ></div>
 
-    {/* 3. Page Content Stack */}
+    <!-- Page Content Stack -->
     <div class="relative z-10 flex flex-col min-h-screen w-full">
         <Navbar />
 
