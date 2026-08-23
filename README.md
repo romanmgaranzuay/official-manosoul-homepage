@@ -5,7 +5,7 @@
 ![Stripe](https://img.shields.io/badge/Stripe-635BFF?style=for-the-badge&logo=stripe&logoColor=white)
 # Official Artist Homepage & Serverless Store Architecture
 
-A high-performance, serverless e-commerce and media delivery platform built with Astro, TypeScript, and multi-cloud security practices.
+A secure, serverless digital storefront and media delivery pipeline built with Astro, TypeScript, Stripe, and Cloudflare R2.
 
 ## 🏗️ Architecture Overview
 
