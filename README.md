@@ -30,7 +30,7 @@ A high-performance, serverless e-commerce and media delivery platform built with
 
 ## 🖥️ Example Stripe Checkout Session
 <img width="1080" height="608" alt="stripe-checkout" src="https://github.com/user-attachments/assets/0ca70846-33be-4890-9e28-fb4357084c6c" />
-_Note: This example checkout session is in Stripe Test Mode to demonstrate secure webhook handling and temporary R2 asset generation without needing to process live transactions._
+*Note: This example checkout session is in Stripe Test Mode to demonstrate secure webhook handling and temporary R2 asset generation without needing to process live transactions.*
 
 ## 🛡️ Security Implementations
 
