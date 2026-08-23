@@ -27,6 +27,10 @@ A high-performance, serverless e-commerce and media delivery platform built with
 │
 └──► [ Resend API ] (Transactional Delivery w/ SPF/DKIM/DMARC)
 ```
+
+<img width="1080" height="608" alt="stripe-checkout" src="https://github.com/user-attachments/assets/6f6e65a8-4ef5-4ebc-840e-90df3799c631" />
+"Note: This example checkout session is in Stripe Test Mode to demonstrate secure webhook handling and temporary R2 asset generation without needing to process live transactions."
+
 ## 🛡️ Security Implementations
 
 * **Cryptographic Event Verification:** Webhooks sent from Stripe are cryptographically verified using `stripe-signature` headers before processing fulfillment logic.
