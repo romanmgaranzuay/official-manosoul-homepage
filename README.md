@@ -28,22 +28,23 @@ A high-performance, serverless e-commerce and media delivery platform built with
 └──► [ Resend API ] (Transactional Delivery w/ SPF/DKIM/DMARC)
 ```
 
-## 🖥️ Example Stripe Checkout Session
+## 🖥️ Checkout and Webhook Demo
+
 <img width="1080" height="608" alt="stripe-checkout" src="https://github.com/user-attachments/assets/0ca70846-33be-4890-9e28-fb4357084c6c" />
-*Note: This example checkout session is in Stripe Test Mode to demonstrate secure webhook handling and temporary R2 asset generation without needing to process live transactions.*
+*Note: This example checkout session is in Stripe Test Mode to demonstrate secure webhook handling and temporal R2 asset generation. This is not a live transaction.*
 
 ## 🛡️ Security Implementations
 
-* **Cryptographic Event Verification:** Webhooks sent from Stripe are cryptographically verified using `stripe-signature` headers before processing fulfillment logic.
-* **Temporal Access Control:** Assets inside Cloudflare R2 are entirely private. Access is granted strictly through 15-minute AWS S3 presigned URLs generated on-demand upon completed payment.
-* **Custom Middleware Defense:** API routes (`/api/create-checkout`) are guarded by origin-checking middleware to mitigate Cross-Site Request Forgery (CSRF) and block unauthorized bot traffic.
-* **Email Security & Alignment:** Transactional email infrastructure is hardened using DKIM cryptographic signing, SPF authorization, and DMARC policies.
-* **Secrets Management:** Zero hardcoded API keys; complete isolation of development vs. production environment variables within Vercel's encrypted secrets store.
+* **Cryptographic Event Verification:** Webhooks sent from Stripe are cryptographically verified with `stripe-signature` headers before processing fulfillment logic.
+* **Temporal Access Control:** Assets inside Cloudflare R2 are private. Access is granted strictly through 15-minute AWS S3 presigned URLs generated on-demand when a payment is complete.
+* **Custom Middleware Defense:** API routes (`/api/create-checkout`) are checked by middleware to mitigate Cross-Site Request Forgery (CSRF) and block unauthorized bot traffic.
+* **Email Security & Alignment:** Transactional email infrastructure is hardened with DKIM cryptographic signing, SPF authorization, and DMARC policies.
+* **Secrets Management:** No hardcoded API keys; complete isolation of development vs. production environment variables within Vercel's encrypted secrets store.
 
 ## 🧰 Tech Stack
 
-* **Frontend/Framework:** Astro, Tailwind CSS, TypeScript
-* **Deployment/Compute:** Vercel (Serverless Edge Engine)
+* **Frontend:** Astro, Tailwind CSS, TypeScript
+* **Deployment:** Vercel (Serverless Edge Engine)
 * **Object Storage:** Cloudflare R2 (S3-Compatible API)
 * **Integrations:** Stripe API, Resend API
 * **Security & DNS:** Cloudflare, AWS SDK (`@aws-sdk/client-s3`)
@@ -52,7 +53,7 @@ A high-performance, serverless e-commerce and media delivery platform built with
 
 To run this project locally, create a `.env` file in the root directory. 
 
-> ⚠️ **Security Policy:** Never commit `.env` to version control. Local environment variables are explicitly ignored in `.gitignore`. Production secrets are managed via Vercel's Encrypted Environment Store.
+> ⚠️ **Security Policy:** DO NOT commit `.env` to version control. Local environment variables are explicitly ignored in `.gitignore`. Production secrets are managed using Vercel's Encrypted Environment Store.
 
 ```env
 # Stripe Configuration
@@ -82,39 +83,16 @@ stripe listen --forward-to localhost:4321/api/stripe-webhook
 | Attack / Failure Vector | Defense Mechanism | Risk Mitigation |
 | :--- | :--- | :--- |
 | **API Replay Attacks** | Stripe Webhook Cryptographic Verification (`HMAC-SHA256`) | Rejects forged POST events trying to trigger free asset generation. |
-| **Direct Asset Exfiltration** | Private R2 Bucket + 15-Min Presigned URLs | Prevents public enumeration or direct hotlinking of master audio files. |
+| **Direct Asset Exfiltration** | Private R2 Bucket + 15-Min Presigned URLs | Prevents public enumeration or direct hotlinking of purchased digital files. |
 | **Distributed Bot Spam** | Astro Edge Middleware Origin Filtering | Drops unauthorized cross-origin API calls before execution. |
-| **Mail Delivery Interception** | Strict DNS Authentication (SPF, DKIM, DMARC) | Prevents domain impersonation and spoofed download emails. |
-
-## Repository File Structure
-
-- `src/pages/index.astro` assembles the homepage sections.
-- `src/pages/listen/[slug].astro` builds one smart-link page per release.
-- `src/pages/api/create-checkout.ts` creates Stripe checkout sessions for digital merch.
-- `src/pages/api/stripe-webhook.ts` turns completed payments into download links and emails.
-- `src/content/releases/` stores release metadata used on the music and listen pages.
-- `src/content/shop/` stores one JSON file per merch item.
-- `public/images/` and `public/icons/` hold static assets that are served directly by path.
-
-## Content Notes
-
-- Release cover art now lives in `public/images/cover_art/` and is referenced with `/images/...` paths.
-- Merch items are stored as individual JSON files so each product can be edited independently.
-- The layout and sections use a small set of utility comments to explain why the page is split into full-width and centered regions.
+| **Mail Delivery Interception** | Strict DNS Authentication (SPF, DKIM, DMARC) | Prevents domain impersonation and spoofed transaction emails. |
 
 ## Local Development
 
-Run these from the project root:
+Setup Commands:
 
 | Command | Action |
 | :-- | :-- |
 | `npm install` | Install dependencies |
 | `npm run dev` | Start the Astro dev server |
-| `astro dev --background` | Start the dev server in the background when working in VS Code |
 | `npm run build` | Build the production site |
-| `npm run preview` | Preview the production build locally |
-| `npm run astro -- --help` | Show Astro CLI help |
-
-## Documentation
-
-Astro docs: https://docs.astro.build
