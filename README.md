@@ -90,9 +90,13 @@ stripe listen --forward-to localhost:4321/api/stripe-webhook
 ## Local Development
 
 Setup Commands:
+```bash
+# Install dependencies
+npm install
 
-| Command | Action |
-| :-- | :-- |
-| `npm install` | Install dependencies |
-| `npm run dev` | Start the Astro dev server |
-| `npm run build` | Build the production site |
+# Start local Astro server
+npm run dev
+
+# Forward Stripe webhooks locally
+stripe listen --forward-to localhost:4321/api/stripe-webhook
+```
