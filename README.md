@@ -31,7 +31,7 @@ A secure, serverless digital storefront and media delivery pipeline built with A
 ## 🖥️ Checkout and Webhook Demo
 
 <img width="1080" height="608" alt="stripe-checkout" src="https://github.com/user-attachments/assets/0ca70846-33be-4890-9e28-fb4357084c6c" />
-*Note: This example checkout session is in Stripe Test Mode to demonstrate secure webhook handling and temporal R2 asset generation. This is not a live transaction.*
+*Note: This example checkout session is in Stripe Test Mode to demonstrate secure webhook handling and temporal R2 URL generation. This is not a live transaction.*
 
 ## 🛡️ Security Implementations
 
