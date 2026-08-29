@@ -16,7 +16,7 @@ interface VideoData {
   
   <div class="flex items-end justify-between mb-8">
     <h2 class="text-3xl md:text-5xl font-bold font-serif tracking-tighter uppercase">Videos</h2>
-    <p class="text-[#2d5f43] text-sm font-serif tracking-widest uppercase hidden md:block">Watch & Listen</p>
+    <p class="text-[#204317] text-sm font-serif tracking-widest uppercase hidden md:block">Watch & Listen</p>
   </div>
 
   <div class="relative w-full max-w-4xl mx-auto overflow-hidden group">
@@ -36,7 +36,7 @@ interface VideoData {
             />
             
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <button class="play-btn pointer-events-auto text-[#faf8f5]/90 hover:text-[#db1644] hover:scale-125 transition-all duration-300 drop-shadow-2xl flex items-center justify-center">
+              <button class="play-btn pointer-events-auto text-[#faf8f5]/90 hover:text-[#e60026] hover:scale-125 transition-all duration-300 drop-shadow-2xl flex items-center justify-center">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-24 h-24 md:w-32 md:h-32">
                   <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
                 </svg>
@@ -46,17 +46,17 @@ interface VideoData {
           </div>
 
           <div class="w-full p-6 pt-5">
-            <h3 class="text-[#2d5f43] text-3xl md:text-4xl font-serif uppercase tracking-tight">{video.title}</h3>
+            <h3 class="text-[#204317] text-3xl md:text-4xl font-serif uppercase tracking-tight">{video.title}</h3>
           </div>
 
         </div>
       ))}
     </div>
 
-    <button id="prev-video" class="absolute left-2 md:left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#db1644] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+    <button id="prev-video" class="absolute left-2 md:left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#e60026] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
       &larr;
     </button>
-    <button id="next-video" class="absolute right-2 md:right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#db1644] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+    <button id="next-video" class="absolute right-2 md:right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#e60026] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
       &rarr;
     </button>
   </div>
@@ -65,7 +65,7 @@ interface VideoData {
 
 <div id="youtube-modal" class="fixed inset-0 z-[100] bg-black/95 backdrop-blur-lg hidden flex-col items-center justify-center p-4 md:p-12 opacity-0 transition-opacity duration-300">
   
-  <button id="close-modal" class="absolute top-6 right-6 text-white hover:text-[#9b1c31] tracking-widest uppercase text-sm font-bold transition-colors">
+  <button id="close-modal" class="absolute top-6 right-6 text-white hover:text-[#e60026] tracking-widest uppercase text-sm font-bold transition-colors">
     Close [X]
   </button>
   

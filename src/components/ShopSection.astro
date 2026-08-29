@@ -45,7 +45,7 @@ const shopItems = shopEntries
           <div class="mt-auto pt-4">
             {item.inStock ? (
               <button 
-                class="buy-now-btn block w-full py-4 text-center bg-[#0f1d15] text-[#faf8f5] font-bold uppercase tracking-wider text-sm hover:text-[#faf8f5] hover:bg-[#9b1c31] hover:scale-105 transition-transform transition-colors duration-300 border border-[#faf8f5] hover:border-[#9b1c31]"
+                class="buy-now-btn block w-full py-4 text-center bg-[#204317] text-[#faf8f5] font-bold uppercase tracking-wider text-sm hover:text-[#faf8f5] hover:bg-[#e60026] hover:scale-105 transition-transform transition-colors duration-300 border border-[#faf8f5] hover:border-[#e60026]"
                 data-price-id={item.stripePriceId}
                 data-r2-key={item.r2ObjectKey}
               >
@@ -54,7 +54,7 @@ const shopItems = shopEntries
             ) : (
               <button 
                 disabled 
-                class="block w-full py-4 text-center bg-[#faf8f5] text-[#2d5f43] font-bold uppercase tracking-wider text-sm cursor-not-allowed border border-[#e2ebd3]"
+                class="block w-full py-4 text-center bg-[#faf8f5] text-[#204317] font-bold uppercase tracking-wider text-sm cursor-not-allowed border border-[#e2ebd3]"
               >
                 Coming Soon
               </button>
