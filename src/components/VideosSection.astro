@@ -11,7 +11,6 @@ interface VideoData {
 }
 ---
 
-<!-- Videos carousel with inline YouTube playback modal. -->
 <div id="videos-container" class="w-full opacity-0 -translate-x-16 transition-all duration-2000 ease-out">
   
   <div class="flex items-end justify-between mb-8">
@@ -19,25 +18,31 @@ interface VideoData {
     <p class="text-[#204317] text-sm font-serif tracking-widest uppercase hidden md:block">Watch & Listen</p>
   </div>
 
-  <div class="relative w-full max-w-4xl mx-auto overflow-hidden group">
+  <div class="relative w-full max-w-4xl mx-auto overflow-hidden group select-none">
     
-    <div id="video-track" class="flex cursor-grab active:cursor-grabbing">
-      
+    <div 
+      id="video-track" 
+      class="flex cursor-grab active:cursor-grabbing will-change-transform touch-pan-y"
+    >
       {([...videos].reverse() as VideoData[]).map((video) => (
-        
-        <div class="w-full shrink-0 flex flex-col">
+        <div class="w-full shrink-0 flex flex-col video-card select-none">
           
           <div class="w-full relative aspect-video overflow-hidden border border-zinc-900" data-youtube-id={video.youtubeId}>
             
             <img 
               src={video.thumbnail} 
               alt={video.title} 
-              class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity"
+              class="w-full h-full object-cover opacity-80 group-hover:opacity-100 transition-opacity pointer-events-none select-none"
+              draggable="false"
             />
             
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
-              <button class="play-btn pointer-events-auto text-[#faf8f5]/90 hover:text-[#e60026] hover:scale-125 transition-all duration-300 drop-shadow-2xl flex items-center justify-center">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-24 h-24 md:w-32 md:h-32">
+              <button 
+                type="button"
+                aria-label={`Play ${video.title}`}
+                class="play-btn pointer-events-auto text-[#faf8f5]/90 hover:text-[#e60026] hover:scale-125 transition-all duration-300 drop-shadow-2xl flex items-center justify-center cursor-pointer"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-24 h-24 md:w-32 md:h-32 pointer-events-none">
                   <path fill-rule="evenodd" d="M4.5 5.653c0-1.427 1.529-2.33 2.779-1.643l11.54 6.347c1.295.712 1.295 2.573 0 3.286L7.28 19.99c-1.25.687-2.779-.217-2.779-1.643V5.653Z" clip-rule="evenodd" />
                 </svg>
               </button>
@@ -53,10 +58,10 @@ interface VideoData {
       ))}
     </div>
 
-    <button id="prev-video" class="absolute left-2 md:left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#e60026] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+    <button id="prev-video" aria-label="Previous Video" class="absolute left-2 md:left-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#e60026] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
       &larr;
     </button>
-    <button id="next-video" class="absolute right-2 md:right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#e60026] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
+    <button id="next-video" aria-label="Next Video" class="absolute right-2 md:right-4 top-[45%] -translate-y-1/2 bg-transparent text-[#faf8f5] hover:text-[#e60026] hover:scale-150 transition-all duration-300 text-3xl opacity-100 z-10 border-none outline-none flex items-center justify-center cursor-pointer p-2 drop-shadow-md">
       &rarr;
     </button>
   </div>
@@ -77,14 +82,12 @@ interface VideoData {
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
-    // Reveal the section once it enters the viewport.
+    // Reveal section on scroll
     const videosContainer = document.getElementById('videos-container');
-    
     if (videosContainer) {
       const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
-            // Remove the offset (-translate-x-16) and invisible classes
             videosContainer.classList.remove('opacity-0', '-translate-x-16');
             videosContainer.classList.add('opacity-100', 'translate-x-0');
             observer.unobserve(entry.target);
@@ -102,61 +105,158 @@ interface VideoData {
     const iframe = document.getElementById('youtube-iframe') as HTMLIFrameElement; 
     const closeModalBtn = document.getElementById('close-modal') as HTMLButtonElement;
 
-    let isAnimating = false;
+    if (!track) return;
 
-    const nextSlide = () => {
-      if (isAnimating) return; 
-      isAnimating = true;
-
-      track.style.transition = 'transform 500ms ease-in-out';
-      track.style.transform = 'translateX(-100%)';
-
-      setTimeout(() => {
-        track.style.transition = 'none';
-        track.appendChild(track.firstElementChild as HTMLElement);
-        track.style.transform = 'translateX(0)';
-        isAnimating = false;
-      }, 500);
-    };
-
-    const prevSlide = () => {
-      if (isAnimating) return;
-      isAnimating = true;
-
-      track.style.transition = 'none';
-      track.insertBefore(track.lastElementChild as HTMLElement, track.firstElementChild);
-      track.style.transform = 'translateX(-100%)';
-      void track.offsetWidth;
-      track.style.transition = 'transform 500ms ease-in-out';
-      track.style.transform = 'translateX(0)';
-
-      setTimeout(() => {
-        isAnimating = false;
-      }, 500);
-    };
-
-    nextBtn.addEventListener('click', nextSlide);
-    prevBtn.addEventListener('click', prevSlide);
-
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    let isDragging = false;
+    let hasMoved = false;
     let startX = 0;
-    
-    track.addEventListener('touchstart', (e) => {
-      startX = e.changedTouches[0].screenX;
-    });
+    let lastX = 0;
+    let velocity = 0;
+    let lastTime = 0;
 
-    track.addEventListener('touchend', (e) => {
-      let endX = e.changedTouches[0].screenX;
-      if (endX < startX - 50) nextSlide(); 
-      if (endX > startX + 50) prevSlide(); 
-    });
+    const getCardWidth = () => {
+      const firstCard = track.firstElementChild as HTMLElement;
+      return firstCard ? firstCard.offsetWidth : track.offsetWidth;
+    };
 
-    // Clicking a play button swaps the modal iframe source to the selected YouTube video.
+    const setPosition = (pos: number) => {
+      track.style.transform = `translateX(${pos}px)`;
+    };
+
+    const checkCardWrap = () => {
+      const cardWidth = getCardWidth();
+
+      // Scrolled left past one card: move first to end
+      while (currentTranslate <= -cardWidth) {
+        if (!track.firstElementChild) break;
+        track.appendChild(track.firstElementChild);
+        currentTranslate += cardWidth;
+        prevTranslate += cardWidth;
+      }
+
+      // Scrolled right past one card: move last to start
+      while (currentTranslate > 0) {
+        if (!track.lastElementChild) break;
+        track.insertBefore(track.lastElementChild, track.firstElementChild);
+        currentTranslate -= cardWidth;
+        prevTranslate -= cardWidth;
+      }
+
+      setPosition(currentTranslate);
+    };
+
+    const smoothSettle = (targetTranslate: number, onComplete?: () => void) => {
+      track.style.transition = 'transform 380ms cubic-bezier(0.25, 1, 0.5, 1)';
+      currentTranslate = targetTranslate;
+      prevTranslate = targetTranslate;
+      setPosition(currentTranslate);
+
+      const handleEnd = () => {
+        track.style.transition = 'none';
+        track.removeEventListener('transitionend', handleEnd);
+        checkCardWrap();
+        if (onComplete) onComplete();
+      };
+
+      track.addEventListener('transitionend', handleEnd);
+    };
+
+    // Touch / Pointer Start
+    const onStart = (clientX: number) => {
+      isDragging = true;
+      hasMoved = false;
+      track.style.transition = 'none';
+      startX = clientX;
+      lastX = clientX;
+      lastTime = performance.now();
+      velocity = 0;
+    };
+
+    // Touch / Pointer Move (1:1 direct tracking)
+    const onMove = (clientX: number) => {
+      if (!isDragging) return;
+      const now = performance.now();
+      const deltaX = clientX - startX;
+      const dt = now - lastTime;
+
+      if (Math.abs(deltaX) > 5) {
+        hasMoved = true;
+      }
+
+      if (dt > 0) {
+        velocity = (clientX - lastX) / dt;
+      }
+
+      lastX = clientX;
+      lastTime = now;
+
+      currentTranslate = prevTranslate + deltaX;
+      checkCardWrap();
+    };
+
+    // Touch / Pointer End
+    const onEnd = () => {
+      if (!isDragging) return;
+      isDragging = false;
+
+      const cardWidth = getCardWidth();
+      
+      // Momentum flick calculation
+      const momentumDistance = velocity * 120;
+      const projectedTranslate = currentTranslate + momentumDistance;
+      
+      const cardIndex = Math.round(projectedTranslate / cardWidth);
+      const snapTarget = cardIndex * cardWidth;
+
+      smoothSettle(snapTarget);
+    };
+
+    // Touch listeners
+    track.addEventListener('touchstart', (e) => onStart(e.touches[0].clientX), { passive: true });
+    window.addEventListener('touchmove', (e) => onMove(e.touches[0].clientX), { passive: true });
+    window.addEventListener('touchend', onEnd);
+    window.addEventListener('touchcancel', onEnd);
+
+    // Mouse listeners (Desktop drag)
+    track.addEventListener('mousedown', (e) => onStart(e.clientX));
+    window.addEventListener('mousemove', (e) => {
+      if (isDragging) e.preventDefault();
+      onMove(e.clientX);
+    });
+    window.addEventListener('mouseup', onEnd);
+
+    // Button controls
+    let isBtnAnimating = false;
+    const moveByStep = (direction: 'next' | 'prev') => {
+      if (isBtnAnimating || isDragging) return;
+      isBtnAnimating = true;
+
+      const cardWidth = getCardWidth();
+      const target = direction === 'next' ? currentTranslate - cardWidth : currentTranslate + cardWidth;
+
+      smoothSettle(target, () => {
+        isBtnAnimating = false;
+      });
+    };
+
+    if (nextBtn) nextBtn.addEventListener('click', () => moveByStep('next'));
+    if (prevBtn) prevBtn.addEventListener('click', () => moveByStep('prev'));
+
+    // Video modal handlers
     document.querySelectorAll('.play-btn').forEach((btn) => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', (e) => {
+        // Prevent opening if the user was just dragging/swiping
+        if (hasMoved) {
+          e.preventDefault();
+          return;
+        }
+
         const slide = btn.closest('[data-youtube-id]');
         const youtubeId = slide?.getAttribute('data-youtube-id');
         
-        if (youtubeId) {
+        if (youtubeId && modal && iframe) {
           iframe.src = `https://www.youtube.com/embed/${youtubeId}?autoplay=1`;
           modal.classList.remove('hidden');
           modal.classList.add('flex');
@@ -166,6 +266,7 @@ interface VideoData {
     });
 
     const closeModal = () => {
+      if (!modal || !iframe) return;
       modal.classList.add('opacity-0');
       setTimeout(() => {
         modal.classList.add('hidden');
@@ -174,10 +275,12 @@ interface VideoData {
       }, 300);
     };
 
-    closeModalBtn.addEventListener('click', closeModal);
+    if (closeModalBtn) closeModalBtn.addEventListener('click', closeModal);
     
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) closeModal();
-    });
+    if (modal) {
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+      });
+    }
   });
 </script>
