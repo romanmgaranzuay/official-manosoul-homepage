@@ -1,43 +1,43 @@
 ---
 // src/components/HeroSection.astro
 ---
-<section 
-  data-hero 
-  class="relative left-1/2 w-screen -translate-x-1/2 min-h-[90svh] flex items-center justify-center overflow-hidden"
->
-  <!-- Full-bleed hero image -->
+
+<!-- 
+  h-[100dvh] makes the section take up exactly 100% of the screen height on any device.
+  overflow-hidden ensures no weird horizontal scrolling happens.
+-->
+<section data-hero class="relative left-1/2 w-screen -translate-x-1/2 h-[95svh] flex items-center justify-center overflow-hidden">
+
+  <!-- Full-bleed hero image sits behind the centered call-to-action. -->
   <img 
     src="/images/hold-the-rose-flower.webp" 
     alt="Artist Hero" 
     class="absolute inset-0 w-full h-full object-cover object-top"
   />
 
+  <!-- The hero content is intentionally layered above the image so the section stays readable. -->
   <div class="relative z-10 flex flex-col justify-between items-center text-center px-4 w-full max-w-4xl h-full py-12">
-    <!-- Top: Heading -->
+
+    <!-- Top: Large display heading -->
     <div class="w-full">
-      <a data-hero-heading href="#music" class="text-[#204317] hover:text-[#e60026] hover:scale-105 font-bold font-serif uppercase tracking-[0.3em] text-3xl md:text-6xl leading-tight transition-all duration-700 ease-out opacity-0 -translate-y-6 block will-change-transform">
+      <a data-hero-heading href="#music" class="text-[#204317] hover:text-[#e60026] hover:scale-105 font-bold font-serif uppercase tracking-[0.3em] text-3xl md:text-6xl leading-tight transition-colors transition-opacity transition-transform duration-700 ease-out opacity-0 -translate-y-6 block will-change-transform">
         Hold The Rose
       </a>
     </div>
 
-    <!-- Bottom: CTA -->
+    <!-- Bottom: CTA button aligned to bottom center -->
     <div class="w-full flex justify-center">
-      <a data-hero-cta href="#music" class="mt-auto px-8 py-4 bg-[#204317] text-[#faf8f5] font-bold font-serif uppercase tracking-widest text-sm hover:bg-[#e60026] hover:scale-105 transition-all duration-300 opacity-0 translate-y-6 ease-out will-change-transform">
+      <a data-hero-cta href="#music" class="mt-auto px-8 py-4 bg-[#204317] text-[#faf8f5] font-bold font-serif uppercase tracking-widest text-sm hover:bg-[#e60026] hover:scale-105 transition-colors duration-300 opacity-0 translate-y-6 transition-opacity transition-transform duration-700 ease-out will-change-transform">
         Coming Soon
       </a>
     </div>
+
   </div>
-
   <script>
+    // Fade in the heading and CTA once the hero scrolls into view.
     document.addEventListener('DOMContentLoaded', () => {
-      const hero = document.querySelector<HTMLElement>('[data-hero]');
+      const hero = document.querySelector('[data-hero]');
       if (!hero) return;
-
-      // Lock height strictly on initial load so address bar collapsing never causes jumpiness
-      if (window.innerWidth < 768) {
-        hero.style.height = `${window.innerHeight * 0.95}px`;
-      }
-
       const heading = hero.querySelector('[data-hero-heading]');
       const cta = hero.querySelector('[data-hero-cta]');
 
