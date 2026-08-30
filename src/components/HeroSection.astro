@@ -3,10 +3,10 @@
 ---
 
 <!-- 
-  h-[100dvh] makes the section take up exactly 100% of the screen height on any device.
-  overflow-hidden ensures no weird horizontal scrolling happens.
+  Replacing left-1/2 w-screen -translate-x-1/2 with w-full removes the 
+  mobile viewport recalculation that caused the image to resize during scroll.
 -->
-<section data-hero class="relative left-1/2 w-screen -translate-x-1/2 h-[95svh] flex items-center justify-center overflow-hidden">
+<section data-hero class="relative w-full h-[95svh] flex items-center justify-center overflow-hidden">
 
   <!-- Full-bleed hero image sits behind the centered call-to-action. -->
   <img 
